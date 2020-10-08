@@ -1,0 +1,19 @@
+{
+  "name": "prince.dev",
+  "version": "1.0.0",
+  "description": "Prince Wilson's Personal Website",
+  "author": "Prince Wilson",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "breadbox": "breadbox --dest public/web_modules",
+    "build": "toast incremental .",
+    "start": "npx serve public"
+  },
+  "dependencies": {
+    "@sector/breadbox": "^0.0.4",
+    "preact": "^10.5.4",
+    "preact-render-to-string": "^5.1.10",
+    "toast": "^0.3.12"
+  }
+}
