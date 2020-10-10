@@ -30,12 +30,10 @@ module.exports = options => ast => {
           Highlight.default,
           {
             ...Highlight.defaultProps,
-            ...{
-              code: tree.children[0].value.trim(),
-              language: lang,
-              theme: nightOwl,
-              Prism
-            }
+            code: tree.children[0].value.trim(),
+            language: lang,
+            theme: nightOwl,
+            Prism
           },
           ({ className, style, tokens, getLineProps, getTokenProps }) => (
             h(

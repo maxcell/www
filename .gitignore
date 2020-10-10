@@ -2,3 +2,5 @@ node_modules/
 .tmp/
 public/
 .netlify/
+NOTES.md
+yarn-error.log

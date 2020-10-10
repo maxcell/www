@@ -16,6 +16,7 @@
     "packages/*"
   ],
   "dependencies": {
+    "@emotion/core": "^10.0.0-yeet",
     "@mdx-js/mdx": "2.0.0-next.8",
     "@mdx-js/preact": "^1.6.18",
     "@sector/breadbox": "^0.0.4",
@@ -30,6 +31,12 @@
     "exclude": [
       "toast.js",
       "utils/fetch-mdx-post-files.js"
-    ]
+    ],
+    "installOptions": {
+      "alias": {
+        "react": "preact/compat",
+        "react-dom": "preact/compat"
+      }
+    }
   }
 }

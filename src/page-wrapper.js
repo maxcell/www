@@ -1,8 +1,10 @@
 /** @jsx h */
 import { h, Fragment } from 'preact';
 import { MDXProvider } from '@mdx-js/preact';
+import Callout from './components/Callout.js' // Remember local files requires extensions
 
 const components = {
+  Callout,
   wrapper: (props) => {
     return (
       <main>
@@ -38,16 +40,18 @@ const components = {
 // https://preactjs.com/guide/v10/components#fragments
 export default function PageWrapper({ children }) {
   return (
-    <div style={{ width: '70ch', margin: '0 auto', paddingLeft: '1.0875rem', paddingRight: '1.0875rem' }}>
-      <nav>
-        <a href="/">Prince</a>
-        <a href="#">About</a>
-        <a href="#">Blog</a>
-      </nav>
-      {/* Does MDXProvider only render on MDX Pages */}
-      <MDXProvider components={components}>
-        {children}
-      </MDXProvider>
-    </div>
+    <Fragment>
+      <div style={{ width: '70ch', margin: '0 auto', paddingLeft: '1.0875rem', paddingRight: '1.0875rem' }}>
+        <nav>
+          <a href="/">Prince</a>
+          <a href="#">About</a>
+          <a href="#">Blog</a>
+        </nav>
+        {/* Does MDXProvider only render on MDX Pages */}
+        <MDXProvider components={components}>
+          {children}
+        </MDXProvider>
+      </div>
+    </Fragment>
   )
 }

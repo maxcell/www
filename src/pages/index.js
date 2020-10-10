@@ -2,11 +2,20 @@
 import { h, Fragment } from 'preact';
 
 const Index = (props) => {
+  console.log({ props })
   return (
-    <div>
-      <h2>Welcome to my side of the Internet!</h2>
-      <p>I have no good text here so I am just going to write till I have no more words to write down. Isn't it great to have huge, runon sentences? Yeah probably not.</p>
-    </div>
+    <Fragment>
+      <div>
+        <h2>Welcome to my side of the Internet!</h2>
+        <p>I have no good text here so I am just going to write till I have no more words to write down. Isn't it great to have huge, runon sentences? Yeah probably not.</p>
+      </div>
+
+      <ol>
+        {props.posts.map((post) => (
+          <li><a href={post.slug}>{post.title}</a></li>
+        ))}
+      </ol>
+    </Fragment>
   )
 }
 
