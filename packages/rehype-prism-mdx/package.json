@@ -1,0 +1,13 @@
+{
+  "name": "rehype-prism-mdx",
+  "description": "Duplication of Chris Biscardi's work https://github.com/ChristopherBiscardi/christopherbiscardi.github.com/blob/pure-mdx/packages/rehype-prism-mdx",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "preact-render-to-string": "^5.1.10",
+    "prism-react-renderer": "^1.1.1",
+    "prismjs": "^1.21.0",
+    "unist-util-visit": "^2.0.3"
+  }
+}

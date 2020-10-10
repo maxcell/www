@@ -4,6 +4,7 @@ import { promises as fs } from 'fs'; // TIL
 import frontmatter from 'gray-matter';
 import globby from 'globby';
 import mdx from '@mdx-js/mdx';
+import rehypePrismMdx from 'rehype-prism-mdx';
 
 export const sourceData = async ({ createPage }) => {
   const filenames = await globby('content', {
@@ -19,7 +20,11 @@ export const sourceData = async ({ createPage }) => {
 
       let compiledMdx = null;
       try {
-        compiledMdx = await mdx(content)
+        compiledMdx = await mdx(content, {
+          rehypePlugins: [
+            rehypePrismMdx
+          ]
+        })
       } catch (e) {
         // Console.error for some reason won't output?
         console.log(e)

@@ -10,6 +10,25 @@ const components = {
         {props.children}
       </main>
     )
+  },
+  pre: props => {
+    return (
+      <div
+        style={{
+          borderRadius: '.3em',
+          boxShadow: '0 10px 24px rgba(0,0,0,.25)',
+          backgroundColor: '#011627',
+          padding: '1em',
+          margin: '2em 0'
+        }}
+      >
+        <div
+          dangerouslySetInnerHTML={{
+            __html: props.children.props.children
+          }}
+        />
+      </div>
+    )
   }
 }
 
@@ -19,7 +38,7 @@ const components = {
 // https://preactjs.com/guide/v10/components#fragments
 export default function PageWrapper({ children }) {
   return (
-    <Fragment>
+    <div style={{ width: '70ch', margin: '0 auto', paddingLeft: '1.0875rem', paddingRight: '1.0875rem' }}>
       <nav>
         <a href="/">Prince</a>
         <a href="#">About</a>
@@ -29,6 +48,6 @@ export default function PageWrapper({ children }) {
       <MDXProvider components={components}>
         {children}
       </MDXProvider>
-    </Fragment>
+    </div>
   )
 }
