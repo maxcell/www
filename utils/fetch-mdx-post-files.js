@@ -5,7 +5,7 @@ import frontmatter from 'gray-matter';
 import globby from 'globby';
 import mdx from '@mdx-js/mdx';
 
-export const sourceData = async ({createPage}) => {
+export const sourceData = async ({ createPage }) => {
   const filenames = await globby('content', {
     expandDirectories: {
       extensions: ['mdx']
@@ -15,7 +15,7 @@ export const sourceData = async ({createPage}) => {
   return await Promise.all(
     filenames.map(async (filename) => {
       const file = await fs.readFile(filename, 'utf-8')
-      const {data, content} = frontmatter(file)
+      const { data, content } = frontmatter(file)
 
       let compiledMdx = null;
       try {

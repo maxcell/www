@@ -1254,9 +1254,9 @@
     "@types/node" "*"
 
 "@types/node@*":
-  version "14.11.7"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.11.7.tgz#4d9673b8331ce262628ea89d9ef3964b6c1e5489"
-  integrity sha512-hSEXknS4KiayUdZ7401J/T6eykXHJkDEipnyQMJ4/GstK4kWjbHnwXlcpvIWfPKiEH1JU96DkbzJ1nHRmpmKLw==
+  version "14.11.8"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.11.8.tgz#fe2012f2355e4ce08bca44aeb3abbb21cf88d33f"
+  integrity sha512-KPcKqKm5UKDkaYPTuXSx8wEP7vE9GnuaXIZKijwRYcePpZFDVuy2a57LarFKiORbHOuTOOwYzxVxcUzsh2P2Pw==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -1767,9 +1767,9 @@ css-tree@1.0.0-alpha.39:
     source-map "^0.6.1"
 
 css-what@^3.2.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/css-what/-/css-what-3.4.1.tgz#81cb70b609e4b1351b1e54cbc90fd9c54af86e2e"
-  integrity sha512-wHOppVDKl4vTAOWzJt5Ek37Sgd9qq1Bmj/T1OjvicWbU5W7ru7Pqbn0Jdqii3Drx/h+dixHKXNhZYx7blthL7g==
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/css-what/-/css-what-3.4.2.tgz#ea7026fcb01777edbde52124e21f327e7ae950e4"
+  integrity sha512-ACUm3L0/jiZTqfzRM3Hi9Q8eZqd6IK37mMWPLz9PJxkLWllYeRf+EHUSHYEtFop2Eqytaq1FizFVh7XfBnXCDQ==
 
 csso@^4.0.2:
   version "4.0.3"
@@ -3687,16 +3687,17 @@ to-regex-range@^5.0.1:
   dependencies:
     is-number "^7.0.0"
 
-toast@^0.3.12:
-  version "0.3.12"
-  resolved "https://registry.yarnpkg.com/toast/-/toast-0.3.12.tgz#c8d02815a3c4559b10f88c86a64b50eb781cd11e"
-  integrity sha512-3G8S4uWl4p9I6iluK86k2JtmL1uf2M+6PgdDBeCc7r0/5+7qaP2+s6lWm9ChBTmQCSQHOwI01j1NT59qnflVPA==
+toast@^0.3.14:
+  version "0.3.14"
+  resolved "https://registry.yarnpkg.com/toast/-/toast-0.3.14.tgz#66b6cbeeb5722acd33bbb1dba5b12f4e6d567009"
+  integrity sha512-Lin4XofNf/NMb48f4LaAblVowQl1tOB0h6TXVa/+9jrVRtwNbd6Y/C3K2ttat6UQaDfUkrQAcQW8/t9yKgQssQ==
   dependencies:
     "@mdx-js/preact" "2.0.0-next.8"
     "@svgr/cli" "^5.4.0"
     axios "^0.20.0"
     binary-install "^0.0.1"
     console.table "^0.10.0"
+    env-paths "^2.2.0"
     got "^11.6.2"
     module-alias "^2.2.2"
     preact "^10.4.8"

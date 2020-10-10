@@ -8,6 +8,7 @@
   "scripts": {
     "breadbox": "breadbox --dest public/web_modules",
     "build": "toast incremental .",
+    "clean": "rm -rf public .tmp && yarn breadbox",
     "start": "npx serve public"
   },
   "dependencies": {
@@ -19,9 +20,12 @@
     "preact": "^10.5.4",
     "preact-render-to-string": "^5.1.10",
     "rehype-slug": "^3.0.0",
-    "toast": "^0.3.12"
+    "toast": "^0.3.14"
   },
   "snowpack": {
-    "exclude": ["toast.js", "utils/fetch-mdx-post-files.js"]
+    "exclude": [
+      "toast.js",
+      "utils/fetch-mdx-post-files.js"
+    ]
   }
 }
