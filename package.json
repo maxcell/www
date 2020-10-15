@@ -25,7 +25,7 @@
     "preact": "^10.5.4",
     "preact-render-to-string": "^5.1.10",
     "rehype-slug": "^3.0.0",
-    "toast": "^0.3.14"
+    "toast": "^0.3.19"
   },
   "snowpack": {
     "exclude": [

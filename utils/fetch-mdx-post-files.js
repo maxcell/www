@@ -6,7 +6,7 @@ import globby from 'globby';
 import mdx from '@mdx-js/mdx';
 import rehypePrismMdx from 'rehype-prism-mdx';
 
-export const sourceData = async ({ createPage }) => {
+export const sourceData = async ({ setDataForSlug }) => {
   const filenames = await globby('content', {
     expandDirectories: {
       extensions: ['mdx']
@@ -30,12 +30,14 @@ export const sourceData = async ({ createPage }) => {
         console.log(e)
       }
 
-      await createPage({
-        module: `/** @jsx mdx */
+      await setDataForSlug(data.slug, {
+        component: {
+          mode: 'source',
+          value: `/** @jsx mdx */
         import {mdx} from '@mdx-js/preact';
         ${compiledMdx}`,
-        slug: data.slug,
-        data
+          data
+        }
       })
 
       // Surfaces data for us to use in toast.js
