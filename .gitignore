@@ -4,3 +4,5 @@ public/
 .netlify/
 NOTES.md
 yarn-error.log
+.DS_Store
+.env

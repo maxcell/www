@@ -1,4 +1,4 @@
-import * as PostSource from './utils/fetch-mdx-post-files.js'
+import * as PostSource from './data/fetch-mdx-post-files.js'
 
 export const sourceData = async ({ setDataForSlug }) => {
   const postsData = await PostSource.sourceData({ setDataForSlug })

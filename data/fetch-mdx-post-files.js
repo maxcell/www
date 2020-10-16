@@ -2,27 +2,32 @@
 // What a gem
 import { promises as fs } from 'fs'; // TIL
 import frontmatter from 'gray-matter';
-import globby from 'globby';
 import mdx from '@mdx-js/mdx';
 import rehypePrismMdx from 'rehype-prism-mdx';
+import cloudinaryPlugin from 'rehype-local-image-to-cloudinary';
+
+const BASE_CONTENT_PATH = './content/';
+const MDX_FILE_PATH = (filename) => `${BASE_CONTENT_PATH}${filename}/index.mdx`
+const IMAGE_PATH = (filename) => `${BASE_CONTENT_PATH}${filename}/`
 
 export const sourceData = async ({ setDataForSlug }) => {
-  const filenames = await globby('content', {
-    expandDirectories: {
-      extensions: ['mdx']
-    }
-  })
+  const files = await fs.readdir(BASE_CONTENT_PATH);
 
   return await Promise.all(
-    filenames.map(async (filename) => {
-      const file = await fs.readFile(filename, 'utf-8')
-      const { data, content } = frontmatter(file)
-
+    files.map(async (filename) => {
+      const mdxFile = await fs.readFile(MDX_FILE_PATH(filename))
+      const { data, content } = frontmatter(mdxFile)
       let compiledMdx = null;
       try {
         compiledMdx = await mdx(content, {
           rehypePlugins: [
-            rehypePrismMdx
+            rehypePrismMdx,
+            [
+              cloudinaryPlugin, {
+                baseDir: IMAGE_PATH(filename),
+                uploadFolder: 'prince.dev'
+              }
+            ]
           ]
         })
       } catch (e) {

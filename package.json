@@ -24,13 +24,14 @@
     "gray-matter": "^4.0.2",
     "preact": "^10.5.4",
     "preact-render-to-string": "^5.1.10",
+    "rehype-local-image-to-cloudinary": "^1.0.3",
     "rehype-slug": "^3.0.0",
     "toast": "^0.3.19"
   },
   "snowpack": {
     "exclude": [
       "toast.js",
-      "utils/fetch-mdx-post-files.js"
+      "data/fetch-mdx-post-files.js"
     ],
     "installOptions": {
       "alias": {
