@@ -49,4 +49,7 @@ export const sourceData = async ({ setDataForSlug }) => {
       return data
     })
   )
+  .then(posts => {
+      return posts.filter(post => post.draft !== true)
+    })
 }
