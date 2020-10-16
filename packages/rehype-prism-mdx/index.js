@@ -23,7 +23,13 @@ module.exports = options => ast => {
     if (tree.tagName === 'code') {
       tree.properties.codestring = tree.children[0].value;
 
-      const lang = tree.properties?.className[0]?.split("-")[1];
+      let lang = tree.properties?.className?.[0]?.split("-")[1]
+
+      if(!lang) {
+        console.warn("Your code block doesn't have a set language. Please set a language")
+        console.warn("See Codeblock:\n", tree.properties.codestring)
+        lang = 'shell';
+      }
 
       const highlightedCode = renderToString(
         h(
