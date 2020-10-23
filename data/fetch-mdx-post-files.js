@@ -3,9 +3,10 @@
 import { promises as fs } from 'fs'; // TIL
 import frontmatter from 'gray-matter';
 import mdx from '@mdx-js/mdx';
-import rehypePrismMdx from 'rehype-prism-mdx';
 import cloudinaryPlugin from 'rehype-local-image-to-cloudinary';
 import { fetchMdxFromDisk } from '@toastdotdev/mdx';
+import rehypePrismMdx from '@toastdotdev/mdx/rehype-prism-mdx.js'
+import nightOwlTheme from './nightOwlTheme.js'
 
 const IMAGE_PATH = (filename) => {
   const indexStringSize = "index.mdx".length
@@ -23,7 +24,11 @@ export const sourceData = async ({ setDataForSlug }) => {
       try {
         compiledMdx = await mdx(content, {
           rehypePlugins: [
-            rehypePrismMdx,
+            [
+              rehypePrismMdx, {
+                theme: nightOwlTheme
+              }
+            ],
             [
               cloudinaryPlugin, {
                 baseDir: IMAGE_PATH(filename), // change this
@@ -43,8 +48,8 @@ export const sourceData = async ({ setDataForSlug }) => {
           value: `/** @jsx mdx */
         import {mdx} from '@mdx-js/preact';
         ${compiledMdx}`,
-          data
-        }
+        },
+        data
       })
       // Surfaces data for us to use in toast.js
       return data

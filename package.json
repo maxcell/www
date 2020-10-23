@@ -24,7 +24,7 @@
     "@mdx-js/preact": "^1.6.18",
     "@sector/breadbox": "^0.0.4",
     "@tailwindcss/typography": "^0.2.0",
-    "@toastdotdev/mdx": "0.0.3",
+    "@toastdotdev/mdx": "0.0.4",
     "autoprefixer": "^10.0.1",
     "globby": "^11.0.1",
     "gray-matter": "^4.0.2",

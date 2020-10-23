@@ -1229,10 +1229,10 @@
   resolved "https://registry.yarnpkg.com/@tailwindcss/typography/-/typography-0.2.0.tgz#b597c83502e3c3c6641a8aaabda223cd494ab349"
   integrity sha512-aPgMH+CjQiScLZculoDNOQUrrK2ktkbl3D6uCLYp1jgYRlNDrMONu9nMu8LfwAeetYNpVNeIGx7WzHSu0kvECg==
 
-"@toastdotdev/mdx@0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@toastdotdev/mdx/-/mdx-0.0.3.tgz#68401abe08225eace94fc6858d0a2b5cbd374986"
-  integrity sha512-DK/Ms/SXnhy40UgAFpJUgiaIGAKGnn5OiFY9WY9ToX7luK30rhxcRxqgtXQ8tx+YsVaIdSUmTsCgcvwBV+RkeA==
+"@toastdotdev/mdx@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@toastdotdev/mdx/-/mdx-0.0.4.tgz#8eef6450be6f20aa26ed43956a1a0060d15c7e06"
+  integrity sha512-23VZU36vyGEEtRuMOvyU4O/h7Q0E+1fTdclip0mh9LFiBZBCnfEnlufblIYFsElA3L2XQFKo/dRXOEJYqjTn8w==
   dependencies:
     "@mdx-js/mdx" "^2.0.0-next.8"
     "@sindresorhus/slugify" "^1.1.0"
