@@ -7,7 +7,10 @@
   "type": "module",
   "scripts": {
     "breadbox": "breadbox --dest public/web_modules",
-    "build": "toast incremental .",
+    "build:css-prod": "NODE_ENV=production yarn build:css",
+    "build:css": "postcss --config postcss-config src/styles/style.css -o public/style.css",
+    "build": "yarn build:css && yarn incremental",
+    "incremental": "toast incremental .",
     "clean": "rm -rf public .tmp && yarn breadbox",
     "start": "npx serve public"
   },
@@ -20,12 +23,17 @@
     "@mdx-js/mdx": "2.0.0-next.8",
     "@mdx-js/preact": "^1.6.18",
     "@sector/breadbox": "^0.0.4",
+    "@tailwindcss/typography": "^0.2.0",
+    "autoprefixer": "^10.0.1",
     "globby": "^11.0.1",
     "gray-matter": "^4.0.2",
+    "postcss": "^8.1.2",
+    "postcss-cli": "^8.1.0",
     "preact": "^10.5.4",
     "preact-render-to-string": "^5.1.10",
     "rehype-local-image-to-cloudinary": "^1.0.3",
     "rehype-slug": "^3.0.0",
+    "tailwindcss": "^1.9.5",
     "toast": "^0.3.19"
   },
   "snowpack": {

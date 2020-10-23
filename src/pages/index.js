@@ -2,7 +2,6 @@
 import { h, Fragment } from 'preact';
 
 const Index = (props) => {
-  console.log({ props })
   return (
     <Fragment>
       <div>

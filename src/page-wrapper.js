@@ -7,10 +7,10 @@ const components = {
   Callout,
   wrapper: (props) => {
     return (
-      <main>
+      <article className="prose">
         {props.title ? <h2>{props.title}</h2> : null}
         {props.children}
-      </main>
+      </article>
     )
   },
   pre: props => {
@@ -34,6 +34,13 @@ const components = {
   }
 }
 
+
+function NavLink(props) {
+  return (
+    <a className="mr-6" {...props} />
+  )
+}
+
 // Interesting that you can't use <></>
 // Transpiling related:
 // Note that most modern transpilers allow you to use a shorter syntax for Fragments.
@@ -41,15 +48,20 @@ const components = {
 export default function PageWrapper({ children }) {
   return (
     <Fragment>
+      <head>
+        <link rel="stylesheet" href="/style.css" />
+      </head>
       <div style={{ width: '70ch', margin: '0 auto', paddingLeft: '1.0875rem', paddingRight: '1.0875rem' }}>
         <nav>
-          <a href="/">Prince</a>
-          <a href="#">About</a>
-          <a href="#">Blog</a>
+          <NavLink href="/">Prince</NavLink>
+          <NavLink href="#">About</NavLink>
+          <NavLink href="#">Blog</NavLink>
         </nav>
         {/* Does MDXProvider only render on MDX Pages */}
         <MDXProvider components={components}>
+          <main>
           {children}
+          </main>
         </MDXProvider>
       </div>
     </Fragment>
