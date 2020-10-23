@@ -9,7 +9,7 @@ const Index = (props) => {
         <p>I have no good text here so I am just going to write till I have no more words to write down. Isn't it great to have huge, runon sentences? Yeah probably not.</p>
       </div>
 
-      <ol>
+      <ol className="list-disc list-inside">
         {props.posts.map((post) => (
           <li><a href={post.slug}>{post.title}</a></li>
         ))}

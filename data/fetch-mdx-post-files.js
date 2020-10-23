@@ -5,18 +5,20 @@ import frontmatter from 'gray-matter';
 import mdx from '@mdx-js/mdx';
 import rehypePrismMdx from 'rehype-prism-mdx';
 import cloudinaryPlugin from 'rehype-local-image-to-cloudinary';
+import { fetchMdxFromDisk } from '@toastdotdev/mdx';
 
-const BASE_CONTENT_PATH = './content/';
-const MDX_FILE_PATH = (filename) => `${BASE_CONTENT_PATH}${filename}/index.mdx`
-const IMAGE_PATH = (filename) => `${BASE_CONTENT_PATH}${filename}/`
+const IMAGE_PATH = (filename) => {
+  const indexStringSize = "index.mdx".length
+  const directoryRoot = filename.slice(0, -indexStringSize)
+  return directoryRoot
+}
 
 export const sourceData = async ({ setDataForSlug }) => {
-  const files = await fs.readdir(BASE_CONTENT_PATH);
+  const mdxObjs = await fetchMdxFromDisk({ directory: './content/' })
 
   return await Promise.all(
-    files.map(async (filename) => {
-      const mdxFile = await fs.readFile(MDX_FILE_PATH(filename))
-      const { data, content } = frontmatter(mdxFile)
+    mdxObjs.map(async ({ file, filename }) => {
+      const { data, content } = frontmatter(file)
       let compiledMdx = null;
       try {
         compiledMdx = await mdx(content, {
@@ -24,7 +26,7 @@ export const sourceData = async ({ setDataForSlug }) => {
             rehypePrismMdx,
             [
               cloudinaryPlugin, {
-                baseDir: IMAGE_PATH(filename),
+                baseDir: IMAGE_PATH(filename), // change this
                 uploadFolder: 'prince.dev'
               }
             ]
@@ -44,12 +46,9 @@ export const sourceData = async ({ setDataForSlug }) => {
           data
         }
       })
-
       // Surfaces data for us to use in toast.js
       return data
-    })
-  )
-  .then(posts => {
+    })).then(posts => {
       return posts.filter(post => post.draft !== true)
     })
 }
