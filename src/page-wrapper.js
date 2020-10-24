@@ -1,5 +1,6 @@
 /** @jsx h */
 import { h, Fragment } from 'preact';
+import { Helmet } from 'react-helmet';
 import { MDXProvider } from '@mdx-js/preact';
 import Callout from './components/Callout.js' // Remember local files requires extensions
 
@@ -7,7 +8,7 @@ const components = {
   Callout,
   wrapper: (props) => {
     return (
-      <article className="prose">
+      <article className="prose max-w-none">
         {props.title ? <h2>{props.title}</h2> : null}
         {props.children}
       </article>
@@ -30,7 +31,7 @@ function NavLink(props) {
 export default function PageWrapper(props) {
   return (
     <Fragment>
-      <head>
+      <Helmet>
         <link rel="stylesheet" href="/style.css" />
         <style dangerouslySetInnerHTML={
           {
@@ -40,11 +41,18 @@ export default function PageWrapper(props) {
               margin: 0 -2rem;
               background-color: #465671;
             }
+
+            pre pre::-webkit-scrollbar {
+              box-shadow: transparent;
+            }
           `
           }} />
-      </head>
-      <div style={{ width: '70ch', margin: '0 auto', paddingLeft: '1.0875rem', paddingRight: '1.0875rem' }}>
-        <nav>
+      </Helmet>
+      <div
+        className="container mx-auto px-4 max-w-3xl"
+
+      >
+        <nav className="mb-4">
           <NavLink href="/">Prince</NavLink>
           <NavLink href="#">About</NavLink>
           <NavLink href="#">Blog</NavLink>

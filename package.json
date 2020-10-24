@@ -32,6 +32,7 @@
     "postcss-cli": "^8.1.0",
     "preact": "^10.5.4",
     "preact-render-to-string": "^5.1.10",
+    "react-helmet": "^6.1.0",
     "rehype-local-image-to-cloudinary": "^1.0.3",
     "rehype-slug": "^3.0.0",
     "tailwindcss": "^1.9.5",
