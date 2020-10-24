@@ -15,6 +15,8 @@ module.exports = {
         }
     },
     variants: {
+        backgroundColor: ['responsive', 'hover', 'focus', 'active'],
+        borderColor: ['responsive', 'hover', 'focus', 'active'],
         margin: ['first', 'last']
     },
     plugins: [

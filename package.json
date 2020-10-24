@@ -29,6 +29,7 @@
     "autoprefixer": "^10.0.1",
     "globby": "^11.0.1",
     "gray-matter": "^4.0.2",
+    "match-sorter": "^5.0.0",
     "postcss": "^8.1.2",
     "postcss-cli": "^8.1.0",
     "preact": "^10.5.4",
