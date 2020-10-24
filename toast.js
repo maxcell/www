@@ -1,4 +1,5 @@
 import * as PostSource from './data/fetch-mdx-post-files.js'
+import engagements from './data/engagements.js'
 
 export const sourceData = async ({ setDataForSlug }) => {
   const postsData = await PostSource.sourceData({ setDataForSlug })
@@ -11,5 +12,8 @@ export const sourceData = async ({ setDataForSlug }) => {
     if (da > db) return 1
   })
 
-  await setDataForSlug("/", { data: { posts: postsData } })
+  const NUMBER_OF_POSTS = 5
+  const firstPosts = postsData.slice(0, NUMBER_OF_POSTS + 1)
+
+  await setDataForSlug("/", { data: { posts: firstPosts, engagements } })
 }

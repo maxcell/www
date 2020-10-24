@@ -56,7 +56,7 @@ export default function PageWrapper(props) {
           <NavLink href="/" className="text-purple-600 font-bold">Prince</NavLink>
           <ul className="flex">
             <li><NavLink href="#">About</NavLink></li>
-            <li><NavLink href="#">Blog</NavLink></li>
+            <li><NavLink href="/garden">Blog</NavLink></li>
           </ul>
         </nav>
         {/* Does MDXProvider only render on MDX Pages */}
