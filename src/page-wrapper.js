@@ -14,7 +14,7 @@ const components = {
       </article>
     )
   },
-  codeblock: props => <pre dangerouslySetInnerHTML={{ __html: props.children }} />,
+  codeblock: props => <pre style={{ 'boxShadow': '0 10px 24px rgba(0,0,0,.25)' }} dangerouslySetInnerHTML={{ __html: props.children }} />,
 }
 
 
