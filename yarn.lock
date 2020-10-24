@@ -922,6 +922,11 @@
     postcss "7.0.32"
     purgecss "^2.3.0"
 
+"@jlengstorf/get-share-image@^0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@jlengstorf/get-share-image/-/get-share-image-0.7.1.tgz#bdef9c633ce6dbf8c300fc82d18befba615a0d5c"
+  integrity sha512-eXATsFDhdRYMqAcrBNW4SpZttAxlA9S/9IAvyUt7UTxxlwNXKo/tqrOxRoOSrA79l25QQ0oDqP/9BcdvvGmYxQ==
+
 "@mdx-js/mdx@2.0.0-next.8", "@mdx-js/mdx@^2.0.0-next.8":
   version "2.0.0-next.8"
   resolved "https://registry.yarnpkg.com/@mdx-js/mdx/-/mdx-2.0.0-next.8.tgz#7d29d7ee634ab0c37cf44bd8d9b1e93c5e09649f"
