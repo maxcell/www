@@ -20,7 +20,7 @@ const components = {
 
 function NavLink(props) {
   return (
-    <a className="mr-6" {...props} />
+    <a {...props} className={`mr-6 text-lg focus:underline hover:underline ${props.className}`} />
   )
 }
 
@@ -52,10 +52,12 @@ export default function PageWrapper(props) {
         className="container mx-auto px-4 max-w-3xl"
 
       >
-        <nav className="mb-4">
-          <NavLink href="/">Prince</NavLink>
-          <NavLink href="#">About</NavLink>
-          <NavLink href="#">Blog</NavLink>
+        <nav className="mt-4 mb-4 flex justify-between">
+          <NavLink href="/" className="text-purple-600 font-bold">Prince</NavLink>
+          <ul className="flex">
+            <li><NavLink href="#">About</NavLink></li>
+            <li><NavLink href="#">Blog</NavLink></li>
+          </ul>
         </nav>
         {/* Does MDXProvider only render on MDX Pages */}
         <MDXProvider components={components}>

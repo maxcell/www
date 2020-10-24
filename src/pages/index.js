@@ -6,13 +6,14 @@ const Index = (props) => {
     <Fragment>
       <div>
         <h2 className="mb-6 font-bold text-gray-900 text-2xl">Welcome to my side of the Internet!</h2>
-        <p>I have no good text here so I am just going to write till I have no more words to write down. Isn't it great to have huge, runon sentences? Yeah probably not.</p>
+        <p>I am a full-stack web developer based in NYC. I love building things and making sure to bring people together around accessibility and security. Beyond the work I do, I love corgis.</p>
       </div>
 
-      <ol className="list-disc list-inside">
+      <h3 className="mb-4 text-2xl font-bold">Articles</h3>
+      <ol className="list-none list-inside">
         {props.posts.map((post) => (
           <li className="mt-5 mb-5 first:mt-0 last:mb-0">
-            <a className="underline text-gray-900" href={post.slug}>
+            <a className="focus:underline hover:underline text-lg font-bold text-gray-900" href={post.slug}>
               {post.title}
             </a>
           </li>
