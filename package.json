@@ -12,7 +12,8 @@
     "build": "yarn build:css && yarn incremental",
     "incremental": "toast incremental .",
     "clean": "rm -rf public .tmp && yarn breadbox",
-    "start": "npx serve public"
+    "start": "npx serve public",
+    "watch": "watch 'yarn incremental' ./src"
   },
   "private": "true",
   "workspaces": [
@@ -49,5 +50,8 @@
         "react-dom": "preact/compat"
       }
     }
+  },
+  "devDependencies": {
+    "watch": "^1.0.2"
   }
 }
