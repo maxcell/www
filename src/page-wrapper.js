@@ -33,12 +33,11 @@ export default function PageWrapper(props) {
     <Fragment>
       <Helmet>
         <link rel="stylesheet" href="/style.css" />
-        <style dangerouslySetInnerHTML={
-          {
-            __html: `
+        <style>
+          {`
             .mdx-highlight-line {
-              padding: 0 2rem;
-              margin: 0 -2rem;
+              padding: 0 2em;
+              margin: 0 -2em;
               background-color: #465671;
             }
 
@@ -46,7 +45,8 @@ export default function PageWrapper(props) {
               box-shadow: transparent;
             }
           `
-          }} />
+          }
+        </style>
       </Helmet>
       <div
         className="container mx-auto px-4 max-w-3xl"
