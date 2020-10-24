@@ -3,5 +3,13 @@ import * as PostSource from './data/fetch-mdx-post-files.js'
 export const sourceData = async ({ setDataForSlug }) => {
   const postsData = await PostSource.sourceData({ setDataForSlug })
 
+  postsData.sort((b, a) => {
+    const da = new Date(a.date).getTime()
+    const db = new Date(b.date).getTime()
+    if (da < db) return -1
+    if (da === db) return 0
+    if (da > db) return 1
+  })
+
   await setDataForSlug("/", { data: { posts: postsData } })
 }

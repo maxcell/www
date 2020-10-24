@@ -1,6 +1,5 @@
 // Credits to Chris Biscardi
 // What a gem
-import { promises as fs } from 'fs'; // TIL
 import frontmatter from 'gray-matter';
 import mdx from '@mdx-js/mdx';
 import cloudinaryPlugin from 'rehype-local-image-to-cloudinary';
