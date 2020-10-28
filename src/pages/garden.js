@@ -7,7 +7,6 @@ const ToggleButton = (props) => {
     className={`shadow-sm font-bold py-2 px-4
     border-b-4 bg-gray-100 hover:bg-gray-200 hover:border-gray-300 
     active:bg-gray-400 active:border-gray-400
-    ease-in-out duration-150
     rounded ${props.pressedStyles}`}
     onClick={props.onClick}
   >
@@ -26,7 +25,7 @@ const ButtonTagsList = (props) => {
   const buttonTags = props.tags.map(tag => {
     const isActive = props.tagsState[tag] === 'on'
     const activeStyles = isActive ?
-      'bg-purple-500 border-purple-500 hover:bg-purple-400 hover:border-purple-400 text-gray-100' : '';
+      'transition ease-in-out duration-150 bg-purple-500 border-purple-500 hover:bg-purple-400 hover:border-purple-400 text-gray-100' : '';
 
     return <li className='mr-2' key={tag}>
       <ToggleButton

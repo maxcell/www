@@ -17,7 +17,8 @@ module.exports = {
     variants: {
         backgroundColor: ['responsive', 'hover', 'focus', 'active'],
         borderColor: ['responsive', 'hover', 'focus', 'active'],
-        margin: ['first', 'last']
+        margin: ['first', 'last'],
+        transitionTimingFunction: ['active']
     },
     plugins: [
         require('@tailwindcss/typography')
