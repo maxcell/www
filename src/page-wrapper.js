@@ -33,7 +33,17 @@ const components = {
       </Fragment>
     )
   },
-  codeblock: props => <pre style={{ 'boxShadow': '0 10px 24px rgba(0,0,0,.25)' }} dangerouslySetInnerHTML={{ __html: props.children }} />,
+  pre: props => (
+    <div style={{ 'boxShadow': '0 10px 24px rgba(0,0,0,.25)' }}>
+      <div dangerouslySetInnerHTML={{ __html: props.children.props.children }} />
+    </div>
+  ),
+  codeblock: props => (
+    <pre
+      style={{ 'boxShadow': '0 10px 24px rgba(0,0,0,.25)' }}
+      dangerouslySetInnerHTML={{ __html: props.children }}
+    />
+  ),
 }
 
 
@@ -54,12 +64,6 @@ export default function PageWrapper(props) {
         <link rel="stylesheet" href="/style.css" />
         <style>
           {`
-            .mdx-highlight-line {
-              padding: 0 2em;
-              margin: 0 -2em;
-              background-color: #465671;
-            }
-
             pre pre::-webkit-scrollbar {
               box-shadow: transparent;
             }

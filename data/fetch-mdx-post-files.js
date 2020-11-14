@@ -4,7 +4,7 @@ import frontmatter from 'gray-matter';
 import mdx from '@mdx-js/mdx';
 import cloudinaryPlugin from 'rehype-local-image-to-cloudinary';
 import { fetchMdxFromDisk } from '@toastdotdev/mdx';
-import rehypePrismMdx from '@toastdotdev/mdx/rehype-prism-mdx.js'
+import rehypePrismMdx from 'rehype-prism-mdx'
 import nightOwlTheme from './nightOwlTheme.js'
 
 const IMAGE_PATH = (filename) => {

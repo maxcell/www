@@ -1,5 +1,6 @@
 /** @jsx h */
 import { h, Fragment } from 'preact';
+import SocialMedia from '../components/SocialMedia.js';
 
 const Index = (props) => {
   return (
@@ -7,6 +8,7 @@ const Index = (props) => {
       <div>
         <h2 className="mb-6 font-bold text-gray-900 text-2xl">Welcome to my side of the Internet!</h2>
         <p>I am a full-stack web developer based in NYC. I love building things and making sure to bring people together around accessibility and security. Beyond the work I do, I love corgis.</p>
+        <SocialMedia />
       </div>
 
       <h3 className="mt-6 mb-4 text-2xl font-bold">Articles</h3>
