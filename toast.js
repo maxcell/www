@@ -2,7 +2,12 @@ import * as PostSource from './data/fetch-mdx-post-files.js'
 import engagements from './data/engagements.js'
 
 export const sourceData = async ({ setDataForSlug }) => {
-  const postsData = await PostSource.sourceData({ setDataForSlug })
+  let postsData = await PostSource.sourceData({ setDataForSlug })
+
+  // Let's pull out stream posts for now
+  const streamPosts = postsData.filter(post => !!post.youtubeId)
+
+  postsData = postsData.filter(post => !!!post.youtubeId)
 
   postsData.sort((b, a) => {
     const da = new Date(a.date).getTime()
@@ -17,4 +22,5 @@ export const sourceData = async ({ setDataForSlug }) => {
 
   await setDataForSlug("/", { data: { posts: firstPosts, engagements } })
   await setDataForSlug("/garden", { data: { posts: postsData } })
+  await setDataForSlug("/streaming", { data: { streams: streamPosts } })
 }
