@@ -75,8 +75,6 @@ module.exports = options => ast => {
                     line,
                     key: i,
                     style: shouldHighlightLine(i) ? {
-                      padding: '0 2em',
-                      margin: '0 -2em',
                       backgroundColor: '#465671'
                     } : {}
                   }),
