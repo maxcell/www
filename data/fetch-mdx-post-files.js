@@ -48,7 +48,7 @@ export const sourceData = async ({ setDataForSlug }) => {
         import {mdx} from '@mdx-js/preact';
         ${compiledMdx}`,
         },
-        data
+        data: { ...data, description: content.substring(0, 130) + '...' }
       })
       // Surfaces data for us to use in toast.js
       return data

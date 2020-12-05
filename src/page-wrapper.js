@@ -38,7 +38,8 @@ const components = {
     return (
       <Fragment>
         <Helmet>
-          <meta name="image" content={socialImage} />
+          <meta name="og:image" content={socialImage} />
+          <meta name="twitter:image" content={socialImage} />
         </Helmet>
         <article className="prose max-w-none">
           {props.title ? <h2 className="font-extrabold text-3xl mt-6">{props.title}</h2> : null}
@@ -68,9 +69,13 @@ function NavLink(props) {
 // Note that most modern transpilers allow you to use a shorter syntax for Fragments.
 // https://preactjs.com/guide/v10/components#fragments
 export default function PageWrapper(props) {
+
+  const title = props.title || "Prince Wilson - Developer"
+  const description = props.description || "An organically growing notebook of thoughts and learnings!'"
   return (
     <Fragment>
       <Helmet>
+        <link rel="icon" href="/favicon.ico" />
         <link rel="stylesheet" href="/style.css" />
         <style>
           {`
@@ -81,10 +86,18 @@ export default function PageWrapper(props) {
           `
           }
         </style>
+        <meta charSet="utf-8" />
+        <title>{title}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="image" content="https://res.cloudinary.com/maxcell/image/upload/v1579584116/main_social.png" />
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:title" content={props.title} />
+        <meta name="og:image" content="https://res.cloudinary.com/maxcell/image/upload/v1579584116/main_social.png" />
+        <meta name="twitter:image" content="https://res.cloudinary.com/maxcell/image/upload/v1579584116/main_social.png" />
+        <meta name="og:title" content={title} />
+        <meta name="twitter:title" content={props.title} />
+        <meta name="og:type" content="website" />
+        <meta name="twitter:creator" content="@maxcell" />
+        <meta name="og:description" content={description} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
       <div className="container max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col min-h-screen">
         <nav className="mt-14 mb-4 flex justify-between">
