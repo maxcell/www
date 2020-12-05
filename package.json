@@ -40,7 +40,13 @@
     "toast": "^0.3.19"
   },
   "snowpack": {
+    "knownEntrypoints": [
+      "preact",
+      "preact/hooks",
+      "@mdx-js/preact"
+    ],
     "exclude": [
+      "public/**/*",
       "toast.js",
       "data/fetch-mdx-post-files.js"
     ],
