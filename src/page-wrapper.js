@@ -8,8 +8,13 @@ import Footer from './components/Footer.js'
 
 const components = {
   Callout,
+  blockquote: props => <blockquote className="w-4/5 border-purple-500 border-l-4 pb-2 px-4 mx-auto my-4" {...props} />,
+  ul: props => <ul className="list-disc list-inside mt-2 ml-4" {...props} />,
+  'li.ul': props => <ul className="list-disc list-inside ml-5" {...props} />,
+  ol: props => <ol className="list-decimal list-inside mt-2 ml-4" {...props} />,
+  'li.ol': props => <ol className="list-disc list-inside ml-5" {...props} />,
   a: props => <a className="text-lg text-purple-700 underline" {...props} />,
-  p: props => <p className="text-lg pt-4" {...props} />,
+  p: props => <p className="text-lg pt-2" {...props} />,
   h1: props => <h1 className="font-extrabold text-4xl mt-8" {...props} />,
   h2: props => <h2 className="font-extrabold text-3xl mt-6" {...props} />,
   h3: props => <h3 className="font-extrabold text-2xl mt-4" {...props} />,
