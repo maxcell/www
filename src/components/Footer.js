@@ -8,7 +8,7 @@ import {
 
 function Footer() {
   return (
-    <footer className="">
+    <footer className="mb-4">
       <ul>
         <li><a className="text-lg" href="https://github.com/maxcell"><GitHub /> GitHub</a></li>
         <li><a className="text-lg" href="https://twitter.com/maxcell"><Twitter /> Twitter</a></li>
