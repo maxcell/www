@@ -8,6 +8,7 @@ import Footer from './components/Footer.js'
 
 const components = {
   Callout,
+  inlineCode: props => <code className="bg-gray-100" {...props} />,
   blockquote: props => <blockquote className="w-4/5 border-purple-500 border-l-4 pb-2 px-4 mx-auto my-4" {...props} />,
   ul: props => <ul className="list-disc list-inside mt-2 ml-4" {...props} />,
   'li.ul': props => <ul className="list-disc list-inside ml-5" {...props} />,
@@ -48,8 +49,8 @@ const components = {
   },
   codeblock: props => (
     <div
-      className="mt-4 p-4"
-      style={{ backgroundColor: "#011627", 'overflow': 'auto', 'boxShadow': '0 10px 24px rgba(0,0,0,.25)' }}
+      className="my-4 rounded shadow overflow-auto"
+      style={{ backgroundColor: "#011627" }}
       dangerouslySetInnerHTML={{ __html: props.children }}
     />
   ),
@@ -67,7 +68,6 @@ function NavLink(props) {
 // Note that most modern transpilers allow you to use a shorter syntax for Fragments.
 // https://preactjs.com/guide/v10/components#fragments
 export default function PageWrapper(props) {
-  console.log({ props })
   return (
     <Fragment>
       <Helmet>
