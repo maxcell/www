@@ -71,7 +71,7 @@ function NavLink(props) {
 export default function PageWrapper(props) {
 
   const title = props.title || "Prince Wilson - Developer"
-  const description = props.description || "An organically growing notebook of thoughts and learnings!'"
+  const description = props.description || "An organically growing notebook of thoughts and learnings!"
   return (
     <Fragment>
       <Helmet>
@@ -95,12 +95,13 @@ export default function PageWrapper(props) {
         <meta name="twitter:title" content={props.title} />
         <meta name="og:type" content="website" />
         <meta name="twitter:creator" content="@maxcell" />
+        <meta name="description" content={description} />
         <meta name="og:description" content={description} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
       <div className="container max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col min-h-screen">
-        <nav className="mt-14 mb-4 flex justify-between">
+        <nav className="mt-10 mb-4 flex justify-between">
           <NavLink href="/" className="font-bold">Prince</NavLink>
           <ul className="flex">
             <li><NavLink className="font-bold" href="#">About</NavLink></li>

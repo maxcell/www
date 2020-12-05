@@ -48,11 +48,11 @@ export const sourceData = async ({ setDataForSlug }) => {
         import {mdx} from '@mdx-js/preact';
         ${compiledMdx}`,
         },
-        data: { ...data, description: content.substring(0, 130) + '...' }
+        data
       })
       // Surfaces data for us to use in toast.js
       return data
     })).then(posts => {
-      return posts.filter(post => post.draft !== true)
+      return posts.filter(post => !(post.draft || post.hidden))
     })
 }
