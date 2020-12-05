@@ -79,7 +79,7 @@ const Garden = (props) => {
       <ol className="list-none list-inside">
         {filteredPosts.map((post) => (
           <li className="mt-5 mb-5 first:mt-0 last:mb-0">
-            <a className="focus:underline hover:underline text-lg font-bold text-gray-900" href={post.slug}>
+            <a className="underline text-lg font-bold text-gray-900" href={post.slug}>
               {post.title}
             </a>
           </li>

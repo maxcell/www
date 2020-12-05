@@ -4,9 +4,11 @@ import { Helmet } from 'react-helmet';
 import { MDXProvider } from '@mdx-js/preact';
 import getShareImage from '@jlengstorf/get-share-image';
 import Callout from './components/Callout.js' // Remember local files requires extensions
+import Footer from './components/Footer.js'
 
 const components = {
   Callout,
+  a: props => <a className="text-lg text-purple-700 underline" {...props} />,
   p: props => <p className="text-lg pt-4" {...props} />,
   h1: props => <h1 className="font-extrabold text-4xl mt-8" {...props} />,
   h2: props => <h2 className="font-extrabold text-3xl mt-6" {...props} />,
@@ -79,9 +81,8 @@ export default function PageWrapper(props) {
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:title" content={props.title} />
       </Helmet>
-      <div className="container max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* <div class="max-w-1xl mx-auto"> */}
-        <nav className="mt-10 mb-4 flex justify-between">
+      <div className="container max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col min-h-screen">
+        <nav className="mt-14 mb-4 flex justify-between">
           <NavLink href="/" className="font-bold">Prince</NavLink>
           <ul className="flex">
             <li><NavLink className="font-bold" href="#">About</NavLink></li>
@@ -92,7 +93,8 @@ export default function PageWrapper(props) {
         <MDXProvider components={components}>
           <main {...props} />
         </MDXProvider>
-        {/* </div> */}
+        <hr className="mt-10 mb-4 divide-y-4 border-purple-500 divide-dashed" />
+        <Footer />
       </div>
     </Fragment>
   )
