@@ -1,6 +1,5 @@
 /** @jsx h */
 import { h, Fragment } from 'preact';
-import SocialMedia from '../components/SocialMedia.js';
 
 const Index = (props) => {
   return (

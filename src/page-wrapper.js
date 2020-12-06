@@ -104,7 +104,7 @@ export default function PageWrapper(props) {
         <nav className="mt-10 mb-4 flex justify-between">
           <NavLink href="/" className="font-bold">Prince</NavLink>
           <ul className="flex">
-            <li><NavLink className="font-bold" href="#">About</NavLink></li>
+            <li><NavLink className="font-bold" href="/about">About</NavLink></li>
             <li><NavLink className="font-bold" href="/garden">Blog</NavLink></li>
           </ul>
         </nav>
