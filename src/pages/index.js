@@ -19,7 +19,7 @@ const Index = (props) => {
             </a>
           </li>
         ))}
-        <li><a className="font-medium group" href="/garden">Browse all articles<RightDoubleChevron className="h-4 inline transition transform duration-300 ease-in-out group-hover:translate-x-4" /></a></li>
+        <li><a className="font-medium group" href="/garden">Browse all articles<RightDoubleChevron className="h-4 inline transition transform duration-300 ease-in-out group-hover:translate-x-2" /></a></li>
       </ol>
 
       <h3 className="mt-8 mb-4 text-md font-bold uppercase tracking-wider">Speaking Engagements</h3>
