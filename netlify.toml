@@ -1,2 +1,2 @@
 [build]
-  command = 'yarn install && yarn breadbox && yarn build'
+  command = 'yarn breadbox && yarn && yarn build'
