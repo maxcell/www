@@ -14,7 +14,7 @@
     "clean": "rm -rf public .tmp && yarn breadbox",
     "start": "npx serve public",
     "watch": "watch 'yarn incremental' ./src",
-    "prepare": "yarn breadbox"
+    "postinstall": "breadbox --dest public/web_modules"
   },
   "private": "true",
   "workspaces": [
