@@ -77,11 +77,17 @@ export default function PageWrapper(props) {
       <Helmet>
         <link rel="icon" href="/favicon.ico" />
         <link rel="stylesheet" href="/style.css" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
         <style>
           {`
             .mdx-highlight-line {
               background-color: #465671;
               display: block;
+            }
+
+            body {
+              font-family: IBM Plex Sans;
             }
           `
           }
