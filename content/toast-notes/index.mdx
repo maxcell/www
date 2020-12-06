@@ -1,0 +1,62 @@
+---
+title: Learnings with Toast
+date: 2020-09-11
+description: "A running doc of problems I ran into with and learnings with toast"
+slug: 'toast-notes'
+draft: true
+tags: ['toast', 'static sites', 'learning']
+---
+
+### Netlify Build Error due to Caching
+
+Current problem that exists within Toast right now (2020-12-05) is that the binary isn't
+cached for us by Netlify. So when they try to go back and rebuild the site they fail because
+the binary isn't stuffed away.
+
+The error would look something like this:
+
+```bash
+$ yarn build:css && yarn incremental
+$ postcss --config postcss-config src/styles/style.css -o public/style.css
+$ toast incremental .
+Error: spawnSync /opt/buildhome/.config/toast-nodejs/0.3.30/bin/toast ENOENT
+    at Object.spawnSync (internal/child_process.js:1066:20)
+```
+
+To solve for something like this **temporarily** is to do work in the postinstall
+to make sure that we always have the binary available. With the postinstall method
+we unfortunately also run the risk of losing traction from other package managers.
+This could also be solved through using a Netlify plugin but this wouldn't be as ergonomic.
+
+The more permanent solve requires the developers of Toast to find a way to make sure
+that the binary can be cached/available for Netlify.
+
+### 
+
+Snowpack is looking for packages it needs to build up but it does this by going through
+all sorts of folders, and one folder we **do not** want it to look into is the `public/`
+folder so if anything gets breadboxed for us, we don't want to breadbox that thing as well.
+
+```shell
+⠼ snowpack installing... preact, preact/compat, preact/hooks, preact/hooks.js
+✖ Cannot find module '/.../prince-toast/node_modules/preact/hooks.js'
+```
+
+To avoid this issue, you need to make sure to go to your `package.json` and in the `snowpack`
+configuration add in the public folder:
+
+```diff
+"snowpack": {
+    "knownEntrypoints": [
+      "preact",
+      "preact/hooks",
+      "@mdx-js/preact"
+    ],
+    "exclude": [
++      "public/**/*",
+      "toast.js",
+      "data/fetch-mdx-post-files.js"
+    ],
+  // Rest of the file ...
+}
+```
