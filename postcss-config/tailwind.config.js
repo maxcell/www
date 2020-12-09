@@ -1,6 +1,9 @@
 module.exports = {
-    purge: ['src/**/*.js'],
+    purge: ['./src/**/*.js'],
     theme: {
+        fontFamily: {
+            'sans': ['"IBM Plex Sans"']
+        },
         extend: {},
         typography: {
             default: {
@@ -18,9 +21,10 @@ module.exports = {
         backgroundColor: ['responsive', 'hover', 'focus', 'active'],
         borderColor: ['responsive', 'hover', 'focus', 'active'],
         margin: ['first', 'last'],
-        transitionTimingFunction: ['active']
+        transitionTimingFunction: ['active'],
+        extend: {
+            translate: ['group-hover']
+        }
     },
-    plugins: [
-        require('@tailwindcss/typography')
-    ]
+    plugins: []
 }

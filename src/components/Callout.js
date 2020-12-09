@@ -1,5 +1,4 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core';
+import { h } from 'preact';
 
 export default function Callout({ variant = 'info', children }) {
   const colorStyles = {
@@ -15,14 +14,8 @@ export default function Callout({ variant = 'info', children }) {
 
   return (
     <aside
-      css={{
-        padding: '1rem 2rem',
-        margin: '1.5rem auto',
-        ...colorStyles[variant],
-        '> *:last-child': {
-          marginBottom: 0
-        }
-      }}>
+      className="py-4 px-8 my-6 mx-auto last:mb-0"
+      style={colorStyles[variant]}>
       {children}
     </aside>
   );

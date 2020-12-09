@@ -1,10 +1,10 @@
 import { h, Fragment } from 'preact';
-import { useEffect, useReducer, useState } from 'preact/hooks';
+import { useReducer, useState } from 'preact/hooks';
 import { matchSorter } from 'match-sorter';
 
 const ToggleButton = (props) => {
   return <button
-    className={`shadow-sm font-bold py-2 px-4
+    className={`shadow-sm font-medium py-1 px-2
     border-b-4 bg-gray-100 hover:bg-gray-200 hover:border-gray-300 
     active:bg-gray-400 active:border-gray-400
     rounded ${props.pressedStyles}`}
@@ -27,7 +27,7 @@ const ButtonTagsList = (props) => {
     const activeStyles = isActive ?
       'transition ease-in-out duration-150 bg-purple-500 border-purple-500 hover:bg-purple-400 hover:border-purple-400 text-gray-100' : '';
 
-    return <li className='mr-2' key={tag}>
+    return <li className='mr-2 text-sm' key={tag}>
       <ToggleButton
         pressedStyles={activeStyles}
         onClick={() => props.toggleDispatch({ type: isActive ? 'off' : 'on', tag })}>
@@ -40,7 +40,12 @@ const ButtonTagsList = (props) => {
 }
 
 const SearchBox = (props) => {
-  return <input value={props.searchTerm} onChange={(e) => props.setSearchTerm(e.target.value)} className="rounded w-full max-w-sm border-2 border-gray-200 p-2" type="text" name="search" />
+  return (
+    <Fragment>
+      <label htmlFor="search-box">Search for post: </label>
+      <input id="search-box" placeholder="React" value={props.searchTerm} onChange={(e) => props.setSearchTerm(e.target.value)} className="rounded w-full max-w-sm border-2 border-gray-200 p-2" type="text" name="search" />
+    </Fragment>
+  )
 }
 
 const reducer = (state, action) => {
@@ -74,12 +79,15 @@ const Garden = (props) => {
 
   return (
     <Fragment>
-      <ButtonTagsList tagsState={state} toggleDispatch={dispatch} tags={TAGS} />
       <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      <ol className="list-none list-inside">
+      <div>
+        Select any tags to filter by:
+        <ButtonTagsList tagsState={state} toggleDispatch={dispatch} tags={TAGS} />
+      </div>
+      <ol className="mt-8 list-none list-inside">
         {filteredPosts.map((post) => (
           <li className="mt-5 mb-5 first:mt-0 last:mb-0">
-            <a className="focus:underline hover:underline text-lg font-bold text-gray-900" href={post.slug}>
+            <a className="underline text-lg font-bold text-gray-900" href={post.slug}>
               {post.title}
             </a>
           </li>

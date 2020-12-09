@@ -53,6 +53,6 @@ export const sourceData = async ({ setDataForSlug }) => {
       // Surfaces data for us to use in toast.js
       return data
     })).then(posts => {
-      return posts.filter(post => post.draft !== true)
+      return posts.filter(post => !(post.draft || post.hidden))
     })
 }
