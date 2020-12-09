@@ -17,6 +17,14 @@ export const sourceData = async ({ setDataForSlug }) => {
     if (da > db) return 1
   })
 
+  streamPosts.sort((b, a) => {
+    const da = new Date(a.date).getTime()
+    const db = new Date(b.date).getTime()
+    if (da < db) return -1
+    if (da === db) return 0
+    if (da > db) return 1
+  })
+
   const NUMBER_OF_POSTS = 5
   const firstPosts = postsData.slice(0, NUMBER_OF_POSTS + 1)
 
