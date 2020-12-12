@@ -105,6 +105,8 @@ export default function PageWrapper(props) {
         <meta name="og:description" content={description} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:card" content="summary_large_image" />
+
+        <script src="https://cdn.usefathom.com/script.js" data-site={process.env.SITE_ID} defer></script>
       </Helmet>
       <div className="container max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col min-h-screen">
         <nav className="mt-10 mb-4 flex justify-between">
