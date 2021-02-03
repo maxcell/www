@@ -5,6 +5,8 @@ import mdx from '@mdx-js/mdx';
 import cloudinaryPlugin from 'rehype-local-image-to-cloudinary';
 import { fetchMdxFromDisk } from '@toastdotdev/mdx';
 import rehypePrismMdx from 'rehype-prism-mdx'
+import rehypeSlug from 'rehype-slug';
+import rehypeLink from 'rehype-autolink-headings';
 import nightOwlTheme from './nightOwlTheme.js'
 
 const IMAGE_PATH = (filename) => {
@@ -32,6 +34,16 @@ export const sourceData = async ({ setDataForSlug }) => {
               cloudinaryPlugin, {
                 baseDir: IMAGE_PATH(filename), // change this
                 uploadFolder: 'prince.dev'
+              }
+            ],
+            rehypeSlug,
+            [
+              rehypeLink,
+              {
+                behavior: 'wrap',
+                properties: {
+                  className: 'text-black underline'
+                }
               }
             ]
           ]
