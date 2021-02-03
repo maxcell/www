@@ -12,17 +12,22 @@ or just have things fire during your builds. Lots left up to the imagination!
 
 ### Prerequisites
 
-You'll want to make sure you have installed the [Netlify CLI][netlify-cli] and have an account with Netlify.
-This overall makes it easier for you when you want to develop and test *anything* with Netlify. **You will want to
-be sure you have Node version 10 or higher**.
+To make development and testing easier with Netlify, you'll want to have the [Netlify CLI][netlify-cli] installed,
+and register an account with them. You will also want to be sure to have Node version 10 or higher installed.
 
-To install, run this in your terminal:
+<Callout>
+**Note**: Turns out only Node version 10 or 12 are supported in Netlify Functions.
+This is due to a [limitation of AWS Lambda][aws-limitations]. So be careful not to things
+like [optional chaining][optional-chaining] yet. They will work locally, but not once you're on production!
+</Callout>
+
+To install the CLI, run this in your terminal:
 
 ```text
 npm install netlify-cli
 ```
 
-This will install the cli tool globally so you can run it like any other script. From there,
+This will install the CLI tool globally so you can run it like any other script. From there,
 you will want to be sure to login into your Netlify account through running the command:
 
 ```shell
@@ -215,6 +220,8 @@ for you and you get to build your own functions.
 Shoutout to the folks at Netlify for making this happen. Also shoutout to [Xander][xander-twitter] for proof-reading!
 
 [netlify-cli]: https://github.com/netlify/cli
+[aws-limitations]: https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html
+[optional-chaining]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining
 [insomnia-client]: https://insomnia.rest/
 [hoppscotch-client]: https://hoppscotch.io/
 [xander-twitter]: https://twitter.com/XandyDandy
