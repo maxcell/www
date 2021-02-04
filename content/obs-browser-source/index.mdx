@@ -1,0 +1,132 @@
+---
+title: Building Your Own Chat-activated Browser Source for Twitch
+date: 2021-02-04
+description: "On Twitch, you have seen Alerts pop up when someone follows or subscribes, but how could we do that with chat commands! This will help you out!"
+slug: 'create-browser-source-obs'
+tags: ['comfyjs', 'netlify', 'twitch', 'obs']
+---
+
+A lot of Twitch programming streams have all sorts 
+of fun interactive ways to engage their chat. I have
+always found them so fun so I wanted to build my own!
+While this example is going to be going over command
+activated stuff, feel free to take a look at the rest
+of the possibilities with [ComfyJS][comfyjs].
+
+### Prerequisite
+
+Here are some things to consider:
+
+- You'll want to have your Twitch handle for the chat to listen to
+- A way to have [ComfyJS][comfyjs] availalbe (I'll use the CDN)
+- A way to host the site we create, where I use [Netlify](#)
+
+### Creating the Site
+
+Let's create a skeleton HTML file in our project folder 
+(I name my project folder, `obs-browser-source`).
+We should name this file `index.html`:
+
+```html
+<!-- Inside of obs-browser-source/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>If you're not OBS, Go Away</title>
+  <script src="https://cdn.jsdelivr.net/npm/comfy.js@latest/dist/comfy.min.js"></script>
+  <style>
+    <!-- We will declare some styles here soon -->
+  </style>
+</head>
+
+<body>
+  <!-- We will write the body in just a second! -->
+</body>
+</html>
+```
+
+This skeleton HTML file helps set up a small website! For our website,
+you'll see a set of `<head>` and `<body>` tags. We will start with the
+writing in the body so we can get started:
+
+```html
+<body>
+  <img id="ferris" src="./rustacean-flat-happy.png" width="200" />
+  <script>
+    ComfyJS.onCommand = (user, command, message, flags, extra) => {
+      if (command === "yeeclaw") {
+        const ferris = document.getElementById("ferris")
+        ferris.classList.add("rotate")
+        setTimeout(() => {
+          ferris.classList.remove("rotate")
+        }, 1000)
+      }
+    }
+
+    ComfyJS.Init("maxcellw");
+  </script>
+</body>
+```
+
+We start by adding our image, I have this cute little photo of [Ferris the Rustacean](#).
+Then we will directly write our JavaScript directly into the HTML file within `<script>` tags.
+This can be done in a separate file if you want, but just make sure to link it properly with
+the `src` attribute.
+
+Inside of our script, we will use our `ComfyJS.onCommand` which helps register actions,
+whenever we listen for a command in the chat. By default the command flag it looks for is `!`.
+So whenever someone in our chat starts a message with `!` it will indicate to ComfyJS that this
+is a command and we should be using this function.
+
+From there we can indicate the name of the command we want to listen for, so `!yeeclaw`. From there,
+we tell our program to find the image on our site, add a `class` and then remove it after a second.
+
+Last for the body tag is initializing ComfyJS with the username of the chat we want to listen to!
+So in my case I added my handle, [maxcellw](https://twitch.tv/maxcellw). Feel free to replace it with yours!
+
+Now that is done, let's add what effect we want to happen. In our command, we'll be adding
+a class to our image that causes it to spin. Experiment, the web browser is your oyster!
+
+```html
+<style>
+  .rotate {
+    animation: rotation 1s 1 linear;
+  }
+
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(359deg);
+    }
+  }
+</style>
+```
+
+Now if we open our `index.html` file in the browser, we will see our little Ferris sitting along. And
+whenever we type our command into the chat, we will see it spin!
+
+Here is an example:
+
+![Ferris spinning whenever I type !yeeclaw in the chat](https://res.cloudinary.com/maxcell/image/upload/v1612410597/prince.dev/ferris-spin-18b2447b007aac6c3c2c158579465f8a.gif)
+
+### Deploying our Site to Netlify
+
+- Have a netlify account
+- Have Netlify CLI
+- `ntl deploy --prod`
+
+### Add Site to OBS as browser source
+
+- Add new object to scene, Browse source
+- Name it
+- Take netlify URL and use that as URL
+- Adjust on scene
+- Test with command
+
+[comfyjs]: https://github.com/instafluff/ComfyJS
