@@ -1,0 +1,138 @@
+---
+title: "Getting Started with Toast"
+description: "Back last year, Toast became live! Toast is an ES Modules based Jamstack framework powered by Rust and JavaScript! Let's learn how we can build our first site"
+date: 2021-02-06
+slug: 'start-with-toast'
+tags: ['toast', 'jamstack', 'rust', 'javascript']
+---
+
+I will never be able to do it justice to explain, so here is 
+a tagline from the Toast [site](https://toast.dev):
+
+> Toast is an ES Modules based Jamstack framework for prebuilding large sites.
+
+Toast is powered by Rustlang but all we will have to do is write our
+familiar JavaScript code.
+
+We're going to build a small site through this. If you're a person 
+who likes to read code or want to see the finished result, feel free
+to take a gander at this repository.
+
+## Prerequisites
+
+One of the most important prerequisites is that the minimum required 
+Node version is the latest version of Node v14. I'd recommend 
+installing it through a tool like [nvm][nvm] so you can have multiple
+Node versions on your system.
+
+I'd also recommend having the package manager [Yarn][yarn].
+
+
+## The Smallest Example of a Toast Site
+
+Let's init our project in a new project directory, I call mine `toast-example`:
+
+```text
+yarn init toast-example
+```
+
+You can let it default all the way down if you'd like!
+
+We will want to add the two packages necessary for any Toast site:
+
+1. `@sector/breadbox` - handles converting any packages to be ESModule
+2. `toast` - the secret sauce
+
+You can add them to your dependencies with:
+
+```text
+yarn add @sector/breadbox toast
+```
+
+Lastly for the `package.json` you will want to add the line:
+
+```json {5}
+// in toast-example/package.json
+{
+  "name": "toast-example",
+  "version": "1.0.0",
+  "type": "module",
+  // ...
+}
+```
+
+We'll also add some scripts in our `package.json` so we can
+easily run any commands we will need.
+
+```json {5-8}
+// in toast-example/package.json
+{
+  // ...
+  "type": "module",
+  "scripts": {
+    "breadbox": "breadbox --dest public/web_modules",
+    "build": "toast incremental ."
+  },
+  // ...
+}
+```
+
+From there, we can now write some code!
+
+By default, Toast will look for `.js` files in a `src/pages` directory. It will take those pages and convert them into HTML
+files so if I have a file named `beef.js` it will convert to a
+`beef.html` file.
+
+```jsx
+// inside src/pages/beef.js
+import { h, Fragment } from 'preact';
+
+export default function Beef() {
+  return (
+    <Fragment>
+      <h1>Here is our beef page</h1>
+      <p>You can write whatever you want here</p>
+    </Fragment>
+  )
+}
+```
+
+A few things to notice here:
+
+- By default, Toast uses Preact, this is to be conservative with size
+one brings to their user but still provides similar ergonomics like React.
+- When we write our file, we want to be sure to `import {h} from 'preact'`.
+This makes sure that the correct pragma is set.
+- The page will be built off of the default export of your file. So,
+we can write other components but we want to be sure we have a default set.
+
+
+### Build steps for a Toast site
+
+Now that we have our first page, how do we build our site?
+
+It is composed of two steps:
+
+1. `breadbox --dest public/web_modules`
+2. `toast incremental .`
+
+The first step makes our web modules. TODO: EXPLAIN WHAT THAT MEANs.
+The second does the actual processing for our site and converting our pages over. Remember we made these scripts already so we can
+now run them: `yarn run breadbox && yarn build`.
+
+You'll see a folder of everything built in a new folder `public`.
+
+### Viewing your Pages in the Browser
+
+You can use any tool to host a local server of the `public` folder.
+I tend to just install `http-server` as a devDependency (`yarn add --dev http-server)` and then run `http-server public` which will launch at on localhost:8080. Since we didn't create a `index` page, we won't see anything at the root. But let's go to [http://localhost:8080/beef](http://localhost:8080/beef) and voila!
+
+![Webpage showing our beef.html](./images/beef.png)
+
+## Toast APIs
+
+
+[nvm]: https://github.com/nvm-sh/nvm
+[yarn]: https://yarnpkg.com/
+
+
