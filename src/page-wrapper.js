@@ -15,7 +15,7 @@ const components = {
   ol: props => <ol className="list-decimal list-inside mt-2 ml-4" {...props} />,
   'li.ol': props => <ol className="list-disc list-inside ml-5" {...props} />,
   a: props => <a className="text-lg text-purple-700 underline" {...props} />,
-  p: props => <p className="text-lg pt-2" {...props} />,
+  p: props => <p className="text-lg pt-4" {...props} />,
   h1: props => <h1 className="font-extrabold text-4xl mt-8" {...props} />,
   h2: props => <h2 className="font-extrabold text-3xl mt-6" {...props} />,
   h3: props => <h3 className="font-extrabold text-2xl mt-4" {...props} />,
