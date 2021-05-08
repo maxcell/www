@@ -1,0 +1,88 @@
+---
+title: "Reading More Code to Writing Better Code"
+description: "Writing code is a lot of what the job of a software engineer is. However getting better at it requires reading just as much as you're writing."
+date: 2021-05-07
+slug: 'reading-code'
+tags: ['learning', 'programming']
+---
+
+There was wisdom shared back on Friday, May 7th that really didn't make
+sense with me until I started reflecting back on my week this week.
+[Scott Hanselman][scott-hanselman] shared this paraphrased statement in
+a Developer Education Twitter Space:
+
+> One of the arts [...] is getting really good at reading through code.
+> You have to get comfortable in reading a large codebase. I'd say it
+> is just as important as writing code.
+
+And at first, I was thinking to myself, "Does that mean I need to be
+reading a library written by some developers and has so many files?"
+I can't possibly do that! The reason I reacted that way
+though was because I felt exceptionally overwhelmed with that idea.
+However, throughout the day I realized that it doesn't have to look like
+that whatsoever. Earlier in my day job I realized I had already learned
+this lesson through a teammate.
+
+### Code Reviews can be for Learning Too
+
+I work on building tools for other developers at my company. A lot of
+what I have been trying to improve on for myself is building the right
+APIs for other people. I like to think of how can I make something
+predictable while also affording some ergonomics of the tool. I have
+wonderful teammates who I can always learn from about this too.
+
+A teammate added new code for a rich text editor and it was just some
+of the coolest code to read to me because it showed how to write different
+abstractions and why we would want them at certain levels. It wasn't
+how I thought about approaching the problem and it was enlightening to see how
+they decided to break apart logic.
+
+Most of the time in my PR reviews I am making sure to check for any
+changes we might need to make but also I take it as a time to think
+about what patterns can I learn here.
+
+Sometimes it is look things like specializing a component: We had a
+`<Button/>` component and they made it specialized for the rich text
+editor so it could afford things like accessible keyboard navigation
+and I thought it was so cool to see how we could allow for things to
+be swapped out and also be potentially useful for different underlying
+text editors.
+
+Sometimes it looks like updating pre-existing code: Most of our code is
+written for a primary set of usecases. It was cool to see them take a
+function we had made for a special case of only listening to the document
+and switching the API seamlessly to accept an element optionally while
+also setting the default behavior.
+
+The things about these two examples though is I was already familiar
+with the syntax to do both of them. It is learning and understand the
+patterns they decided to choose and seeing them in application. I think
+that's really what a Pull Request can afford you to understand if you
+look deeper at it.
+
+### Where Do I Want To Go From Here?
+
+I think what this really showed me though is my focus of wanting to
+get better at API Design can really be closer than I realize and I have
+to be able to see the lessons that are in front of me. I don't have to
+reach for some prime example repo and spend endless hours studying it
+but can be taking it at the micro even and just examining a conversation
+or PR of the past and slowly piecing together the rationale.
+
+In my PRs I can examine why did I design it a certain way or even ask
+for advice on the design before it is merged. I think this goes back to
+Chris's newsletter too:
+
+> Taking a step back and then reviewing your own code critically \[...\]
+> There's the good reason that it gives more direction and context to
+> other reviewers to help the end product even better and also
+> 
+> It develops empathy.
+
+I think the most important an actionable step for me is
+playing as a code anthropologist and documenting these things
+as I learn them. And not in the sense of "I MUST name this pattern"
+but rather understanding how it came to be and why and when would it be
+appropriate to consider -- what tradeoffs come with the abstraction.
+
+[scott-hanselman]: https://www.youtube.com/watch?v=qe033p3RUPM
