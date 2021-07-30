@@ -1,0 +1,71 @@
+---
+title: "Problem: Babel isn't compiling my code how I expected"
+date: 2021-07-30
+description: "I just setup my webpack project but babel isn't compiling the way it should!"
+slug: 'webpack-babel-not-compiled'
+tags: ['webpack', 'babel']
+---
+
+Like many Webpack 5 projects, it is common to add in loaders such as
+`babel-loader`. These tools are typically something that can help process
+files for your application and added to the graph what things depend on each other.
+
+## Problem
+
+However, I learned that `babel-loader` right out of the gate isn't going
+to compile your code down to the browsers you need it for without it explicitly
+targetting it. Here's how I came acrossed it and solved it with `browserslist`.
+
+## Background
+
+For my first custom Webpack configuration I wanted to start with a common path:
+I wanted to make sure I understood how Babel gets added to Webpack and compiles
+my code. I ended up adding it to my devDependencies with `npm i -D babel-loader`.
+In order for my Webpack to understand that it should consume this new loader,
+we need to add it to to our `module.rules`:
+
+```diff
+const path = require("path")
+
+module.exports = {  
+  mode: "production",
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'app.bundle.js'
+  },
++  module: {
++    rules: [
++      {
++        test: /.m?js$/,
++        exclude: /(node_modules)/,
++        include: [
++          path.resolve(__dirname, 'src')
++        ],
++        loader: 'babel-loader',
++        options: {
++          presets: ['@babel/preset-env']
++        }
++      }
++    ]
++  }
+}
+```
+
+TODO: Explain this section a bit:
+- why test
+- why exclude
+- naming the loader
+- why the options
+
+When I put this in and ran Webpack, I noticed the output looked
+exactly the same way it was before without any Babel step. This
+made me curious: "Does this mean it isn't working?". After some
+trial and error, I went to Twitter to ask about it and a colleague
+mentioned that I was missing my `browerslist` (TODO: read what is browserslist).
+
+Once I did that, it seems as though Babel recognizes: "Oh hey, I am no longer
+targeting nothing, I should make sure that this JavaScript compiles down
+to the browsers it might get used on." You can add this either through
+the explicit `.browserslistrc` file, or more commonly, add it into your
+`package.json`.
