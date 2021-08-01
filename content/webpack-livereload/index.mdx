@@ -1,0 +1,71 @@
+---
+title: "Problem: Live reloading isn't refreshing for Webpack 5"
+date: 2021-08-01
+description: "As I was setting up my webpack-dev-server for some reason it wasn't actually reloading. Turns out you have to set a target!"
+slug: 'webpack-live-reloading'
+tags: ['webpack', 'live reloading', refreshing]
+---
+
+A lot of people turn to Webpack for its nifty dev experience, such as
+live reloading! Most commonly people use a tool like `webpack-dev-server`
+to make that happen!
+
+## Problem
+
+While adding `webpack-dev-server` should out of the box allow you to
+have live reloading. Turns out there are some addition configurations
+that need to be set in order for it to understand.
+
+It seems to be [a weird bug that was introduced and a lot of people are
+still facing](https://github.com/webpack/webpack-dev-server/issues/2758).
+
+Here are the dependencies and versions that this happened to me on:
+
+- `webpack`: `5.74.1`
+- `webpack-cli`: `4.7.2`
+- `webpack-dev-server`: `3.11.2`
+
+TL;DR: explicitly [adding a `target: 'web'` key to your Webpack configuration](https://webpack.js.org/configuration/target/#root)
+in order for webpack to recognize what to build for.
+
+## Solution
+
+So more than likely if you're setting up your own devServer you have a
+command in your `package.json` to the effect of:
+
+```json
+"scripts": {
+  "dev": "webpack serve --open --config webpack.config.js"
+}
+```
+
+And out of the gate this should:
+
+1) Allow for opening up the default browser with you local server page
+2) Accept your custom configuration
+3) *support live reloading*
+
+While in the terminal I noticed things updating, the page wouldn't
+automatically refresh. This turns out to be a small bug with how Webpack
+5 operates and expects to be told its environment. In order to fix this,
+we have to add a `target` key in our webpack configuration.
+
+So in my `webpack.config.js` I added:
+
+```diff
+module.exports = {  
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'app.bundle.js'
+  },
++  target: 'web'
+  // ...
+}
+```
+
+This is perplexing because of [the documentation stating that Webpack's default target should be web](https://webpack.js.org/configuration/target/#root) anyway.
+This seems to be something wrong also with defining a `browserslist` though that
+would align with what you'd expect Webpack to choose.
+
+But once I added this, live reloading seems to be working fine!
