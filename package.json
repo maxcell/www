@@ -6,15 +6,15 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "breadbox": "breadbox --dest public/web_modules",
+    "prepare": "./postinstall.js",
+    "postinstall": "./postinstall.js",
     "build:css-prod": "NODE_ENV=production yarn build:css",
     "build:css": "postcss --config postcss-config src/styles/style.css -o public/style.css",
     "build": "yarn build:css && yarn incremental",
     "incremental": "toast incremental .",
-    "clean": "rm -rf public .tmp && yarn breadbox",
+    "clean": "rm -rf public .tmp && yarn postinstall",
     "start": "npx serve public",
-    "watch": "watch 'yarn incremental' ./src",
-    "postinstall": "breadbox --dest public/web_modules"
+    "watch": "watch 'yarn incremental' ./src"
   },
   "private": "true",
   "workspaces": [
@@ -27,6 +27,7 @@
     "@sector/breadbox": "^0.0.4",
     "@toastdotdev/mdx": "0.0.4",
     "autoprefixer": "^9",
+    "esinstall": "^1.1.7",
     "globby": "^11.0.1",
     "gray-matter": "^4.0.2",
     "match-sorter": "^5.0.0",

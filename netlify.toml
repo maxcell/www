@@ -1,2 +1,0 @@
-[build]
-  command = 'yarn breadbox && yarn && yarn build && yarn run postinstall'
