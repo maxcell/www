@@ -37,7 +37,7 @@
     "preact-render-to-string": "^5.1.10",
     "react-helmet": "^6.1.0",
     "rehype-autolink-headings": "^5.0.1",
-    "rehype-local-image-to-cloudinary": "^1.0.3",
+    "rehype-local-image-to-cloudinary": "^1.1.0",
     "rehype-slug": "^4.0.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "toast": "^0.3.43"

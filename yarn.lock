@@ -3413,6 +3413,11 @@ node-emoji@^1.8.1:
   dependencies:
     lodash.toarray "^4.4.0"
 
+node-fetch@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
+  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
+
 node-releases@^1.1.67:
   version "1.1.67"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.67.tgz#28ebfcccd0baa6aad8e8d4d8fe4cbc49ae239c12"
@@ -3965,14 +3970,15 @@ rehype-autolink-headings@^5.0.1:
     hast-util-heading-rank "^1.0.0"
     unist-util-visit "^2.0.0"
 
-rehype-local-image-to-cloudinary@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/rehype-local-image-to-cloudinary/-/rehype-local-image-to-cloudinary-1.0.3.tgz#8e76b391110253d8045eed4af979c1d2400d2715"
-  integrity sha512-R98nZZRy1CT+H0q4JJZ1RkDNPBHP/IFBkFVjCF8el2P1KlMYa74GANEXuoDaUIM+tMg2axFKGosCPCVobb/T1w==
+rehype-local-image-to-cloudinary@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/rehype-local-image-to-cloudinary/-/rehype-local-image-to-cloudinary-1.1.0.tgz#af5fca6854c920f9ddbddf78becc3cd28ecc4533"
+  integrity sha512-kOk6T/rMt9JEeesJd+Bw+p9vGIo2TbnGupSEVbrwt3Yl8s6v0a5mqf8QhouOjooqJTWuD8ulUSACVi1ggLgcaw==
   dependencies:
     cloudinary "^1.18.1"
     dotenv "^8.2.0"
     md5-file "^4.0.0"
+    node-fetch "^2.6.1"
     unist-util-visit "^2.0.1"
 
 rehype-parse@^7.0.1:
