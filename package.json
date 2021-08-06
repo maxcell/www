@@ -40,7 +40,7 @@
     "rehype-local-image-to-cloudinary": "^1.0.3",
     "rehype-slug": "^4.0.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
-    "toast": "^0.3.19"
+    "toast": "^0.3.43"
   },
   "snowpack": {
     "knownEntrypoints": [
