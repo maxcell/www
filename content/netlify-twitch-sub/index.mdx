@@ -1,0 +1,15 @@
+---
+title: 'Creating a Twitch launched Netlify function'
+date: '2021-09-01'
+description: 'When we want to point our blog posts somewhere else or have our own short links to places, we can use Netlify redirects to point to them!'
+slug: 'netlify-twitch'
+tags: ['netlify', 'web']
+---
+
+Outline:
+- Create a function in `netlify/functions/some_name.js`
+- Function should handle two things
+  - 1. Handle the challenge message in the body and send it back to twitch
+  - 2. When we receive the actual messaging, then do the things you want!
+- Show how to use the Twitch CLI to test
+- Before Twitch can use this, we need to register our EventSub for the event we're listening for
