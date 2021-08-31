@@ -1,13 +1,13 @@
 ---
-title: 'Using Twitch to Invoke a Netlify Function'
+title: 'Using Twitch EventSub API to Invoke a Netlify Function'
 date: '2021-09-01'
-description: 'When we want to point our blog posts somewhere else or have our own short links to places, we can use Netlify redirects to point to them!'
+description: 'Whenever have our stream go live or offline, have poll interaction, or have a user redeem a channel point we can have live interactions through the Twitch EventSub API! Let us use this and invoke a Netlify Function!'
 slug: 'netlify-twitch'
 tags: ['netlify', 'twitch', 'web']
 ---
 
 We're going to combine two services: Netlify and Twitch! When a user goes
-online, we're going to launch a Netlify function. This could really could do
+online, we're going to invoke a Netlify function. This could really could do
 anything that we want, but for this example, I will have it just `console.log` the
 payload we get from Twitch!
 
@@ -18,7 +18,7 @@ If you want to just see the code, feel free to take a gander [at the repo](https
 This walkthrough assumes a few things:
 - You have [a Netlify account](https://app.netlify.com/signup)
 - You have [a Twitch account](https://www.twitch.tv/signup)
-- You have Node.js installed
+- You have Node.js installed (at least Node 12)
 
 You will need both accounts in order for you to launch any functions.
 
@@ -169,7 +169,7 @@ your application token with `twitch token`.
 And then we'll be able to set up our twitch subscription with:
 
 ```bash {2,4-6,9,10}
-twitch api post eventsub/subscription --body '{
+twitch api post eventsub/subscriptions --body '{
 "type": "stream.online",
   "version": "1",                      
   "condition": {                       
