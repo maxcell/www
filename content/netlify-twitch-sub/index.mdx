@@ -1,15 +1,194 @@
 ---
-title: 'Creating a Twitch launched Netlify function'
+title: 'Using Twitch to Invoke a Netlify Function'
 date: '2021-09-01'
 description: 'When we want to point our blog posts somewhere else or have our own short links to places, we can use Netlify redirects to point to them!'
 slug: 'netlify-twitch'
-tags: ['netlify', 'web']
+tags: ['netlify', 'twitch', 'web']
 ---
 
-Outline:
-- Create a function in `netlify/functions/some_name.js`
-- Function should handle two things
-  - 1. Handle the challenge message in the body and send it back to twitch
-  - 2. When we receive the actual messaging, then do the things you want!
-- Show how to use the Twitch CLI to test
-- Before Twitch can use this, we need to register our EventSub for the event we're listening for
+We're going to combine two services: Netlify and Twitch! When a user goes
+online, we're going to launch a Netlify function. This could really could do
+anything that we want, but for this example, I will have it just `console.log` the
+payload we get from Twitch!
+
+If you want to just see the code, feel free to take a gander at the repo.
+
+## Prerequisites
+
+This walkthrough assumes a few things:
+- You have a Netlify account
+- You have a Twitch account
+- You have Node.js installed
+
+You will need both accounts in order for you to launch any functions.
+
+## Building the Netlify Function
+
+In our project directory, we're going to build out a nested folder:
+1. At the root level `netlify`
+2. And inside of the `netlify` folder, `functions`
+
+<Callout>
+  We're doing this because Netlify offers zero configuration options
+  for functions if you have a structure of `netlify/functions/<name_of_functions>`.
+  Netlify will be smart enough to recognize how it is supposed to interpet it!
+</Callout>
+
+Now let's create a file in our `netlify/functions` folder called `log.js`.
+
+```js
+exports.handler = async (event) => {
+  // Everything in here will be invoked when Twitch connects
+}
+```
+
+In the Twitch EventSub documentation for step 5, it oulines that before
+we receive any subscriptions we need to be able to handle the challenge
+response. This is typically what I write first for my functions:
+
+```js {6}
+const VERIFICATION_TYPE = "webhook_callback_verification"
+exports.handler = async (event) => {
+
+  const body = JSON.parse(event.body)
+
+  const messageType = event.headers["twitch-eventsub-message-type"];
+
+  if(messageType === VERIFICATION_TYPE) {
+    return {
+      statusCode: 200,
+      body: body.challenge // IMPORTANT, challenge is a key in body
+    }
+  }
+}
+```
+
+You'll notice with the hightlighted line that we parse out the type of
+message we receive from Twitch. Things like verification, revoking,
+or the actual subscription payload will be deteremined with this.
+
+From here, once we're verified, we will need to be able to handle the `notification`
+type which says what ever we've been subscribed to is sending us a payload. This is
+where the magic will mostly happen for us!
+
+```js {2,14-23}
+const VERIFICATION_TYPE = "webhook_callback_verification"
+const NOTIFICATION_TYPE = "notification"
+exports.handler = async (event) => {
+
+  const body = JSON.parse(event.body)
+
+  const messageType = event.headers["twitch-eventsub-message-type"];
+
+  if(messageType === VERIFICATION_TYPE) {
+    return {
+      statusCode: 200,
+      body: body.challenge // IMPORTANT, challenge is a key in body
+    }
+  } else if(messageType === NOTIFICATION_TYPE) {
+    const event = body.event
+    
+    console.log("Twitch activated this webhook! Here's the payload: ", event)
+
+    return {
+      statusCode: 200,
+      body: "ok"
+    }
+  }
+}
+```
+
+## Testing the Function Locally with CLIs
+
+This step is optional but I recommend it since you can save a lot of
+time without deploying and waiting for each service to be ready! We
+can setup our netlify functions with the Netlify CLI. In
+the project root, we run in the Terminal:
+
+```bash
+netlify dev
+```
+
+This should run the Netlify local server at the default route of `http://localhost:8888`.
+
+From there we can run the Twitch CLI to test both the verification step
+and the notification step.
+
+When we want to test our verification of our EventSub:
+
+```bash
+twitch event verify-subscription -F http://localhost:8888/.netlify/functions/log streamup
+```
+
+This should output to the terminal:
+
+```bash
+✔ Valid response. Received challenge 9e5ad6d4-e82a-6901-3c08-ce2a7855555b in body
+✔ Valid status code. Received status 200
+```
+
+And when we want to test if our hook will operate properly we can use the Twitch CLI
+once again:
+
+```bash
+twitch event trigger -F http://localhost:8888/.netlify/functions/log streamup
+```
+
+And that should result with a `200`:
+
+```bash
+2000/08/30 20:41:12 [200] Request Sent
+# ... A mock JSON response from Twitch
+```
+
+### Publish the Netlify Function
+
+Now we're should be ready to publish our Netlify Function! You can
+use whatever process works for you but I enjoy using the Netlify
+CLI because in my terminal I run:
+
+```bash
+netlify deploy --prod
+```
+
+And then it will give my the live link!
+
+### Setting up the Twitch EventSub Subscription
+
+Now with our deployed Netlify Function we can subscribe to the EventSub.
+Similar to Netlify, you can use the Twitch CLI to make it so much easier!
+
+Make sure you configure your Twitch CLI with an application and request
+your application token with `twitch token`.
+
+And then we'll be able to set up our twitch subscription with:
+
+```bash
+twitch api post eventsub/subscription --body '{
+"type": "stream.online",
+  "version": "1",                      
+  "condition": {                       
+      "broadcaster_user_id": "20127229"
+  },                      
+  "transport": {                                                                          
+      "method": "webhook",                                                                
+      "callback": "https://mystifying-hamilton-ecdbc9.netlify.app/.netlify/functions/log",
+      "secret": "this_is_my_secret_password"                                                    
+  }
+}'
+```
+
+The things highlighted represent the things you should notice:
+- the `type` allows you to connect to different EventSub types
+- `condition` has different ways you can be more specific on when this should run.
+In our case, we're wanting to run whenever our broadcaster_id goes online
+- `callback` which is the live link to our netlify function
+- `secret` is _crucial_ to making sure that Twitch can verify it is your code that is invoking this function
+
+And that's a wrap! If you want to verify if your subscription is all setup:
+
+```bash
+twitch api get eventsub/subscriptions
+```
+
+And you should see it in the list!
