@@ -1,2 +1,6 @@
 [build]
-  command = "yarn && yarn build"
+  command = "yarn build"
+  publish = "public"
+
+[[plugins]]
+  package = "netlify-plugin-toast-cache"

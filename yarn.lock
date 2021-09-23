@@ -3406,6 +3406,11 @@ ms@2.1.2:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
+netlify-plugin-toast-cache@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/netlify-plugin-toast-cache/-/netlify-plugin-toast-cache-0.0.4.tgz#e5f6cbbb7706bcddc0add298cb7e89d25f861631"
+  integrity sha512-4viL/qnBOqhcBqLGK+QIdLP+z6UBvsVOUdMh2xPV+wwB1RqM811m4uo084o3LyhoeCXnXyGsP1hgKpsjXPGRkQ==
+
 node-emoji@^1.8.1:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/node-emoji/-/node-emoji-1.10.0.tgz#8886abd25d9c7bb61802a658523d1f8d2a89b2da"
