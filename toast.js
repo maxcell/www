@@ -13,8 +13,8 @@ export const sourceData = async ({ setDataForSlug }) => {
   })
 
   const NUMBER_OF_POSTS = 5
-  const firstPosts = postsData.slice(0, NUMBER_OF_POSTS + 1)
+  const firstPosts = postsData.slice(0, NUMBER_OF_POSTS)
 
-  await setDataForSlug("/", { data: { posts: firstPosts, engagements } })
+  await setDataForSlug("/", { data: { latestPosts: firstPosts, engagements } })
   await setDataForSlug("/garden", { data: { posts: postsData } })
 }
