@@ -1,0 +1,154 @@
+---
+title: "Building a Blog with Astro and NetlifyCMS"
+description: "A friend of mine asked me if it can be done, and so I had to figure it out!"
+date: 2021-10-31
+slug: 'astro-netlify-cms'
+tags: ['astro', 'javascript', 'netlify', 'netlifycms']
+---
+
+For work, I have been trying to learn a bit more about some of our own tooling and so I wanted to explore
+a bit more about how NetlifyCMS worked. I knew I wanted a light tool to compliment it with and so I thought
+why not some good Astro!
+
+<Callout>
+  If you'd rather dig into the code, you can check it all out here (TODO: Add link). From this point forward,
+  I will be chatting about the structure and decisions so far!
+</Callout>
+
+## Prerequisites
+
+This assumes you have:
+- Familiarity with JavaScript
+- Installed Node (I'm using v16.18.0)
+- Uses NetlifyCMS (version TODO: add version)
+- Uses Astro (version TODO: add version)
+
+## Starting up the project
+
+While you can use some of the other templates, I chose to go for the minimal starter:
+
+```shell
+mkdir astro-cms-blog
+cd astro-cms-blog
+npm init astro -- --template minimal
+```
+
+This will create a folder for you and then initialize the astro project with the
+minimal amount of setup! I found this was really useful so I didn't have to tear
+anything out like I would have for the other starters.
+
+## Adding NetlifyCMS
+
+Netlify offers its own Content Management System called NetlifyCMS. There are two
+major files that the CMS needs from your production build in order to be all setup:
+1. `public/config.yml` - A configuration YAML file. This is where you describe what data structure
+the CMS should have
+2. `admin/index.html` - An index.html file. This is what will render our admin dashboard for the CMS
+
+You can add the `config.yml` in into the `public` folder. This is where you can describe how you want
+to organize the elements in the CMS, where the posts are stored, and where images might go.
+
+I took the basic structure of what <netlifycms.org> had on it already and just plopped it in.
+
+```yaml
+# public/config.yml
+backend:
+  name: git-gateway
+  branch: master
+
+publish_mode: editorial_workflow
+local_backend: true # allows for you to locally mess with your CMS
+media_folder: "public/images/uploads" # Media files will be stored in the repo under public/images/uploads
+public_folder: "/images/uploads" # The src attribute for uploaded media will begin with /images/uploads
+collections:
+  - name: "blog" # Used in routes, e.g., /admin/collections/blog
+    label: "Blog" # Used in the UI
+    folder: "src/pages/blog" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    fields: # The fields for each document, usually in front matter
+      - {label: "Layout", name: "layout", widget: "hidden", default: "../../layouts/BlogPostLayout.astro"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Featured Image", name: "thumbnail", widget: "image"}
+      - {label: "Body", name: "body", widget: "markdown"}
+```
+
+This sets up all the backend work, we still need to be sure to add in the `admin/index.html`. Before that,
+let's setup the integration we'll need for NetlifyCMS first.
+
+Let's make sure to add the dependency with: `npm install netlify-cms-app`
+
+Because the NetlifyCMS uses React, we're going to need to create a new JSX Component under our `src/components/`
+directory. This will allow us to extend the CMS in any ways we'd like for the future. I called mine `NetlifyCMS.jsx`
+
+```js
+// in src/components/NetlifyCMS.jsx
+import NetlifyCMS from 'netlify-cms-app';
+
+NetlifyCMS.init()
+```
+
+When this script gets added into our page, it will make sure to run everything our frontend needs. With that,
+we need to add this to our `admin/index.html` page.
+
+Astro allows for file-based routing, so you can create a file in your `src/pages` file in the same
+path structure as you want the route to live in order to make it live. Since we want a `admin/index.html`,
+we need to create an `index.astro` file under a new `admin` folder under our `src/pages`:
+
+```astro
+<!-- In src/pages/admin/index.astro -->
+---
+import NetlifyCMS from '../../components/NetlifyCMS.jsx'
+---
+<NetlifyCMS client:only />
+```
+
+Astro components (denoted with the .astro file extension) allows us to write import statements in the frontmatter
+(the content between the two `---`). And from there we can add our import as a component like you see in JSX. The special
+thing to note here is the `client:only`. This attribute on our component tells Astro, only run this script on the client.
+
+Most of the time your Astro components won't need to do this. The reason why it is important here is because the NetlifyCMS
+attaches itself directly into the window object and so when it gets rendered on the server, it fails to know what to do
+since there is no window object. A small price to pay though!
+
+### Adding a renderer
+
+This is a small aside. If you were to try to run our project right now `npm run dev`, it would compile fine. However, if you go to your
+CMS site (<http://localhost:3000/admin>), you'll see an error more than likely saying:
+
+```
+Error: Can't determine the renderer for NetlifyCMS. Include a hint similar to when multiple renderers are included in your Astro config.
+```
+
+This is because it cannot tell what type of component it is trying to process (React, Preact, Vue, Svelte) and to fix this, we need
+to go diving into our `astro.config.mjs` and set the renderer. By default you have a few renderers installed as of `0.20` of Astro.
+I chose to use Preact since it is close to React and was already pre-installed.
+
+```js {3}
+// In astro.config.mjs
+export default /** @type {import('astro').AstroUserConfig} */ ({
+  renderers: ['@astrojs/renderer-preact'],
+});
+```
+
+And this is all the stuff we need to make sure at a bare minimum to have the CMS running and letting
+us create content!
+
+## Running the CMS
+
+To run the CMS locally, you will want two terminals. One terminal will be running our astro server through: `npm run dev`.
+And the second server will be used to allow for us to have a proxy server for the CMS to run through using `npx netlify-cms-proxy-server`.
+You won't need to worry about the proxy server when you go to deploy your site, this is just helpful for local development.
+
+With both of those running, you should be able to log in successfully in at <http://localhost:3000/admin> and be able to create
+a blog post. Now when you go and publish your blog post this will produce a markdown file under `src/pages/blog/`. This is configurable
+under the `public/config.yml` if you'd like for it go elsewhere or have any other attributes.
+
+For instance, right now our page looks a bit boring so we can spruce it up with a layout file instead!
+
+## Adding a Blog Post Layout
+
+TODO:
+1. Add to config.yml for fields: `- {label: "Layout", name: "layout", widget: "hidden", default: "../../layouts/BlogPost.astro"}`
+2. Define layout in `src/layouts/BlogPost.astro`
