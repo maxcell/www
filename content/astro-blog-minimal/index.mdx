@@ -169,7 +169,7 @@ I came up with a small example of a potential layout but really play around with
 ---
   const {content} = Astro.props;
   const {title, date} = content;
-  const formattedDate = new Intl.DateTimeFormat('en-US').format(new Date())
+  const formattedDate = new Intl.DateTimeFormat('en-US').format(new Date(date))
 ---
 <html lang="en">
 
