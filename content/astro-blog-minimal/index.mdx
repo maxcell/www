@@ -100,6 +100,10 @@ we need to create an `index.astro` file under a new `admin` folder under our `sr
 ---
 import NetlifyCMS from '../../components/NetlifyCMS.jsx'
 ---
+
+<head>
+  <link href="/config.yml" type="text/yaml" rel="cms-config-url">
+</head>
 <NetlifyCMS client:only />
 ```
 
@@ -110,6 +114,9 @@ thing to note here is the `client:only`. This attribute on our component tells A
 Most of the time your Astro components won't need to do this. The reason why it is important here is because the NetlifyCMS
 attaches itself directly into the window object and so when it gets rendered on the server, it fails to know what to do
 since there is no window object. A small price to pay though!
+
+The `link` tag here will be important for when you deploy your website to make sure to communicate where the config file will live!
+Otherwise when you try to get to the admin portal it will say "Cannot find config.yml (404)".
 
 ### Adding a renderer
 
