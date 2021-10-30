@@ -112,8 +112,33 @@ Most of the time your Astro components won't need to do this. The reason why it 
 attaches itself directly into the window object and so when it gets rendered on the server, it fails to know what to do
 since there is no window object. A small price to pay though!
 
-The `link` tag here will be important for when you deploy your website to make sure to communicate where the config file will live!
-Otherwise when you try to get to the admin portal it will say "Cannot find config.yml (404)".
+In our `src/pages/index.astro, we'll want to be sure to add in a script tag for us to integrate
+with Netlify Identity. This is helpful for when you're signing up later on when everything is deployed.
+Fortunately, this is only necessary when it is live and locally we're able to login without this.
+
+```html {13}
+<!-- inside src/pages/index.astro -->
+---
+// ... frontmatter
+---
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+	<meta name="viewport" content="width=device-width" />
+	<title>{title}</title>
+	<script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+
+<body>
+ <!-- Body stuff -->
+</body>
+
+</html>
+
+```
 
 ### Adding a renderer
 
