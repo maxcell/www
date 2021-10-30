@@ -1,0 +1,254 @@
+---
+title: "Building a Blog with Astro and NetlifyCMS"
+description: "A friend of mine asked me if it can be done, and so I had to figure it out!"
+date: 2021-10-31
+slug: 'astro-netlify-cms'
+tags: ['astro', 'javascript', 'netlify', 'netlifycms']
+---
+
+For work, I have been trying to learn a bit more about some of our own tooling and so I wanted to explore
+a bit more about how NetlifyCMS worked. I knew I wanted a light tool to compliment it with and so I thought
+why not some good Astro!
+
+<Callout>
+  If you'd rather dig into the code, [you can check it all out on my GitHub](https://github.com/maxcell/astro-netlifycms-example). From this point forward,
+  I will be chatting about the structure and decisions so far!
+</Callout>
+
+## Prerequisites
+
+This assumes you have:
+- Familiarity with JavaScript
+- Installed Node (Version used `v16.18.0`)
+- Uses NetlifyCMS (Version used `2.15.57`)
+- Uses Astro (Version used `0.20.12`)
+
+## Starting up the project
+
+While you can use some of the other templates, I chose to go for the minimal starter:
+
+```shell
+mkdir astro-cms-blog
+cd astro-cms-blog
+npm init astro -- --template minimal
+```
+
+This will create a folder for you and then initialize the astro project with the
+minimal amount of setup! I found this was really useful so I didn't have to tear
+anything out like I would have for the other starters.
+
+## Adding NetlifyCMS
+
+Netlify offers its own Content Management System called NetlifyCMS. There are two
+major files that the CMS needs from your production build in order to be all setup:
+1. `public/config.yml` - A configuration YAML file. This is where you describe what data structure
+the CMS should have
+2. `admin/index.html` - An index.html file. This is what will render our admin dashboard for the CMS
+
+You can add the `config.yml` in into the `public` folder. This is where you can describe how you want
+to organize the elements in the CMS, where the posts are stored, and where images might go.
+
+I took the basic structure of what [netlifycms.org](https://netlifycms.org) had on it already and just plopped it in.
+
+```yaml
+# public/config.yml
+backend:
+  name: git-gateway
+  branch: main # NOTE this relates to your GitHub branch
+
+publish_mode: editorial_workflow
+local_backend: true # allows for you to locally mess with your CMS
+media_folder: "public/images/uploads" # Media files will be stored in the repo under public/images/uploads
+public_folder: "/images/uploads" # The src attribute for uploaded media will begin with /images/uploads
+collections:
+  - name: "blog" # Used in routes, e.g., /admin/collections/blog
+    label: "Blog" # Used in the UI
+    folder: "src/pages/blog" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    fields: # The fields for each document, usually in front matter
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Featured Image", name: "thumbnail", widget: "image"}
+      - {label: "Body", name: "body", widget: "markdown"}
+```
+
+This sets up all the backend work, we still need to be sure to add in the `admin/index.html`. Before that,
+let's setup the integration we'll need for NetlifyCMS first.
+
+Let's make sure to add the dependency with: `npm install netlify-cms-app`
+
+Because the NetlifyCMS uses React, we're going to need to create a new JSX Component under our `src/components/`
+directory. This will allow us to extend the CMS in any ways we'd like for the future. I called mine `NetlifyCMS.jsx`
+
+```js
+// in src/components/NetlifyCMS.jsx
+import NetlifyCMS from 'netlify-cms-app';
+
+NetlifyCMS.init()
+```
+
+When this script gets added into our page, it will make sure to run everything our frontend needs. With that,
+we need to add this to our `admin/index.html` page.
+
+Astro allows for file-based routing, so you can create a file in your `src/pages` file in the same
+path structure as you want the route to live in order to make it live. Since we want a `admin/index.html`,
+we need to create an `index.astro` file under a new `admin` folder under our `src/pages`:
+
+```astro
+<!-- In src/pages/admin/index.astro -->
+---
+import NetlifyCMS from '../../components/NetlifyCMS.jsx'
+---
+<NetlifyCMS client:only />
+```
+
+Astro components (denoted with the .astro file extension) allows us to write import statements in the frontmatter
+(the content between the two `---`). And from there we can add our import as a component like you see in JSX. The special
+thing to note here is the `client:only`. This attribute on our component tells Astro, only run this script on the client.
+
+Most of the time your Astro components won't need to do this. The reason why it is important here is because the NetlifyCMS
+attaches itself directly into the window object and so when it gets rendered on the server, it fails to know what to do
+since there is no window object. A small price to pay though!
+
+### Adding a renderer
+
+This is a small aside. If you were to try to run our project right now `npm run dev`, it would compile fine. However, if you go to your
+CMS site ([http://localhost:3000/admin](http://localhost:3000/admin)), you'll see an error more than likely saying:
+
+```
+Error: Can't determine the renderer for NetlifyCMS. Include a hint similar to when multiple renderers are included in your Astro config.
+```
+
+This is because it cannot tell what type of component it is trying to process (React, Preact, Vue, Svelte) and to fix this, we need
+to go diving into our `astro.config.mjs` and set the renderer. By default you have a few renderers installed as of `0.20` of Astro.
+I chose to use Preact since it is close to React and was already pre-installed.
+
+```js {3}
+// In astro.config.mjs
+export default /** @type {import('astro').AstroUserConfig} */ ({
+  renderers: ['@astrojs/renderer-preact'],
+});
+```
+
+And this is all the stuff we need to make sure at a bare minimum to have the CMS running and letting
+us create content!
+
+## Running the CMS
+
+To run the CMS locally, you will want two terminals. One terminal will be running our astro server through: `npm run dev`.
+And the second server will be used to allow for us to have a proxy server for the CMS to run through using `npx netlify-cms-proxy-server`.
+You won't need to worry about the proxy server when you go to deploy your site, this is just helpful for local development.
+
+With both of those running, you should be able to log in successfully in at [http://localhost:3000/admin](http://localhost:3000/admin) and be able to create
+a blog post. Now when you go and publish your blog post this will produce a markdown file under `src/pages/blog/`. This is configurable
+under the `public/config.yml` if you'd like for it go elsewhere or have any other attributes.
+
+If you go and publish your first blog post, you'll be able to find it rendered in the
+a URL pattern of: `http://localhost:3000/blog/YYYY-MM-DD-title`. Congrats on making your first
+blog post working!
+
+Right now our page looks a bit boring so we can spruce it up with a layout file instead!
+
+## Adding a Blog Post Layout with Astro Layouts
+
+If you want your blog post to look a certain way:
+
+- Displaying the title in a certain size
+- Having the publish date on it
+- Content styled in the center
+
+You will want to take advantage of an [Astro Layout component](https://docs.astro.build/core-concepts/layouts/)! In Astro, you can define layouts
+under `src/layouts` and that allows you to include reusable designs for different parts of your site. This could also be advantageous if you want
+different blog posts to have different designs and layout.
+
+I came up with a small example of a potential layout but really play around with what works for you:
+
+```markdown {2-6,14-19,26}
+<!-- In src/layouts/BlogPost.astro -->
+---
+  const {content} = Astro.props;
+  const {title, date} = content;
+  const formattedDate = new Intl.DateTimeFormat('en-US').format(new Date(date))
+---
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+	<meta name="viewport" content="width=device-width" />
+	<title>{title}</title>
+  <style>
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <h2>{title}</h2>
+    <time datetime={formattedDate}>{formattedDate}</time>
+    <slot/>
+  </main>
+</body>
+</html>
+```
+
+You can think of this component as a sketch of how our blog posts should render. Here's some spots to take note of: 
+- You'll notice we're using the frontmater to pull out metadata for our blog post through `Astro.props`
+- We defined our styles that we can consume for our blog post in the head tag
+- Important: `slot` is a predefined spot that our markdown will fall into through the `default` name. If you want
+more fine control of slots, you can read about [how to define and render them](https://docs.astro.build/core-concepts/astro-components/#slots)
+
+To consume this layout, we will want to make sure our blog post markdown files have a new frontmatter key added to them called `layout`.
+The `layout` will be given the location of our layout component file (`src/layouts/BlogPost.astro`)
+
+If you've published a blog post already and not defined the layout, you can directly add it to the frontmatter like so:
+
+```markdown {2}
+---
+layout: ../../layouts/BlogPost.astro
+title: My New Blog Post
+date: 2021-10-29T02:21:43.412Z
+---
+```
+
+However, doing this manually _ever_ time sounds like a lot. So let's update our CMS to put this in by default for us:
+
+```yml {17}
+# public/config.yml
+backend:
+  name: git-gateway
+  branch: master
+
+publish_mode: editorial_workflow
+local_backend: true # allows for you to locally mess with your CMS
+media_folder: "public/images/uploads" # Media files will be stored in the repo under public/images/uploads
+public_folder: "/images/uploads" # The src attribute for uploaded media will begin with /images/uploads
+collections:
+  - name: "blog" # Used in routes, e.g., /admin/collections/blog
+    label: "Blog" # Used in the UI
+    folder: "src/pages/blog" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    fields: # The fields for each document, usually in front matter
+      - {label: "Layout", name: "layout", widget: "hidden", default: "../../layouts/BlogPost.astro"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Featured Image", name: "thumbnail", widget: "image"}
+      - {label: "Body", name: "body", widget: "markdown"}
+```
+
+And now all future blog posts will have this layout!
+
+## Conclusion
+
+This is just the tip of the iceberg you can get away with for Astro and the NetlifyCMS.
+Play around with the layout and style them however you'd like. If you wanted a bit of direction,
+here are some ways to keep going:
+- Adding all blog posts onto the `src/pages/index.astro` page with [`Astro.fetchContent()`](https://docs.astro.build/reference/api-reference/#astrofetchcontent)
+- [Adding an RSS Feed for your site](https://docs.astro.build/guides/rss/)
+- [Deploying your site using Netlify](https://docs.astro.build/guides/deploy/#netlify)
+- After deploying your site, [Activating Netlify Identity so you can access the CMS](https://docs.netlify.com/visitor-access/identity/)
