@@ -82,7 +82,7 @@ Astro allows for file-based routing, so you can create a file in your `src/pages
 path structure as you want the route to live in order to make it live. Since we want a `admin/index.html`,
 we need to create an `index.astro` file under a new `admin` folder under our `src/pages`:
 
-```astro {6,9,13}
+```astro {7,12}
 <!-- In src/pages/admin/index.astro -->
 ---
 ---
@@ -101,9 +101,8 @@ we need to create an `index.astro` file under a new `admin` folder under our `sr
 Astro components (denoted with the .astro file extension) allows us to write import statements in the frontmatter
 (the content between the two `---`) or other JavaScript. 
 
-We will want to make sure to add a `link` tag on this page so when the page deploys, it can find the configuration file. We attach 
-the Netlify Identity Widget so we can do any sort of logging in for us too! But the most important script
-is adding the NetlifyCMS! This will make sure we can access the content and perform updates, deletes, and whatnot.
+We will want to make sure to add a `link` tag on this page so when the page deploys, it can find the configuration file.
+But the most important script is adding the NetlifyCMS! This will make sure we can access the content and perform updates, deletes, and whatnot.
 
 Lastly, in our `src/pages/index.astro, we'll want to be sure to add in a script tag for us to integrate
 with Netlify Identity. This is helpful for when you're signing up later on when everything is deployed.
