@@ -41,17 +41,17 @@ anything out like I would have for the other starters.
 
 Netlify offers its own Content Management System called NetlifyCMS. There are two
 major files that the CMS needs from your production build in order to be all setup:
-1. `public/config.yml` - A configuration YAML file. This is where you describe what data structure
+1. `admin/config.yml` - A configuration YAML file. This is where you describe what data structure
 the CMS should have
 2. `admin/index.html` - An index.html file. This is what will render our admin dashboard for the CMS
 
-You can add the `config.yml` in into the `public` folder. This is where you can describe how you want
+You can add a folder called `admin` to our `public` folder and inside include `config.yml`. This is where you can describe how you want
 to organize the elements in the CMS, where the posts are stored, and where images might go.
 
 I took the basic structure of what [netlifycms.org](https://netlifycms.org) had on it already and just plopped it in.
 
 ```yaml
-# public/config.yml
+# public/admin/config.yml
 backend:
   name: git-gateway
   branch: main # NOTE this relates to your GitHub branch
@@ -101,9 +101,6 @@ we need to create an `index.astro` file under a new `admin` folder under our `sr
 import NetlifyCMS from '../../components/NetlifyCMS.jsx'
 ---
 
-<head>
-  <link href="/config.yml" type="text/yaml" rel="cms-config-url">
-</head>
 <NetlifyCMS client:only />
 ```
 
