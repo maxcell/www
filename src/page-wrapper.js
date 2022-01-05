@@ -115,7 +115,9 @@ export default function PageWrapper(props) {
         </nav>
         {/* Does MDXProvider only render on MDX Pages */}
         <MDXProvider components={components}>
-          <main {...props} />
+          <main>
+            {props.children}
+          </main>
         </MDXProvider>
         <hr className="mt-10 mb-4 divide-y-4 border-purple-500 divide-dashed" />
         <Footer />
