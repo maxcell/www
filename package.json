@@ -52,7 +52,8 @@
     "exclude": [
       "public/**/*",
       "toast.js",
-      "data/fetch-mdx-post-files.js"
+      "data/fetch-mdx-post-files.js",
+      "data/fetch-blender-post-files.js"
     ],
     "installOptions": {
       "alias": {
