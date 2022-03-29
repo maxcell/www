@@ -29,7 +29,6 @@ const components = {
   h4: (props) => <h4 className="font-extrabold text-xl mt-4" {...props} />,
   h5: (props) => <h5 className="font-extrabold text-lg mt-4" {...props} />,
   wrapper: (props) => {
-    console.log(Object.keys(props));
     const figureItOut = getShareImage.default || getShareImage;
     const socialImage = figureItOut({
       title: props.title,
