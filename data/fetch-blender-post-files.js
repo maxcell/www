@@ -23,7 +23,7 @@ export const sourceData = async ({ setDataForSlug }) => {
       const { data, content } = frontmatter(file);
 
       const siteURL = process.env.DEPLOY_URL || "";
-      data.thumbnail = `${siteURL + "/"}${data.thumbnail}`;
+      data.thumbnail = `${siteURL}${data.thumbnail}`;
 
       let compiledMdx = null;
       try {
