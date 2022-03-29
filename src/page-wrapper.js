@@ -29,6 +29,7 @@ const components = {
   h4: (props) => <h4 className="font-extrabold text-xl mt-4" {...props} />,
   h5: (props) => <h5 className="font-extrabold text-lg mt-4" {...props} />,
   wrapper: (props) => {
+    console.log(Object.keys(props));
     const figureItOut = getShareImage.default || getShareImage;
     const socialImage = figureItOut({
       title: props.title,
@@ -42,11 +43,13 @@ const components = {
       textLeftOffset: 624,
     });
 
+    const thumbnailSrc = props.thumbnail || false;
+
     return (
       <Fragment>
         <Helmet>
-          <meta name="og:image" content={socialImage} />
-          <meta name="twitter:image" content={socialImage} />
+          <meta name="og:image" content={thumbnailSrc || socialImage} />
+          <meta name="twitter:image" content={thumbnailSrc || socialImage} />
         </Helmet>
         <article className="prose max-w-none">
           {props.title ? (

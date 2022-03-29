@@ -21,6 +21,10 @@ export const sourceData = async ({ setDataForSlug }) => {
   return await Promise.all(
     mdxObjs.map(async ({ file, filename }) => {
       const { data, content } = frontmatter(file);
+
+      const siteURL = process.env.DEPLOY_URL || "";
+      data.thumbnail = `${siteURL + "/"}${data.thumbnail}`;
+
       let compiledMdx = null;
       try {
         compiledMdx = await mdx(content, {
