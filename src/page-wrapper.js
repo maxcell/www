@@ -43,7 +43,8 @@ const components = {
       textLeftOffset: 624,
     });
 
-    const thumbnailSrc = props.thumbnail || false;
+    const siteURL = process.env.DEPLOY_URL || "";
+    const thumbnailSrc = `${siteURL + "/"}${props.thumbnail}` || false;
 
     return (
       <Fragment>
