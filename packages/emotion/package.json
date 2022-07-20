@@ -1,8 +1,0 @@
-{
-  "name": "@emotion/core",
-  "version": "10.0.0-yeet",
-  "main": "index.js",
-  "type": "module",
-  "author": "christopherbiscardi <chris@christopherbiscardi.com> (@chrisbiscardi)",
-  "license": "MIT"
-}
