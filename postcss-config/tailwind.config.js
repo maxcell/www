@@ -1,5 +1,5 @@
 module.exports = {
-    purge: ['./src/**/*.js'],
+    content: ['./src/**/*.js'],
     theme: {
         fontFamily: {
             'sans': ['"IBM Plex Sans"']
@@ -15,15 +15,6 @@ module.exports = {
                     }
                 }
             }
-        }
-    },
-    variants: {
-        backgroundColor: ['responsive', 'hover', 'focus', 'active'],
-        borderColor: ['responsive', 'hover', 'focus', 'active'],
-        margin: ['first', 'last'],
-        transitionTimingFunction: ['active'],
-        extend: {
-            translate: ['group-hover']
         }
     },
     plugins: []
