@@ -47,7 +47,7 @@ const components = {
     return (
       <Fragment>
         <Helmet>
-          <meta name="og:image" content={thumbnailSrc || socialImage} />
+          <meta property="og:image" content={thumbnailSrc || socialImage} />
           <meta name="twitter:image" content={thumbnailSrc || socialImage} />
         </Helmet>
         <article className="prose max-w-none">
@@ -113,19 +113,19 @@ export default function PageWrapper(props) {
         <title>{title}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
-          name="og:image"
+          property="og:image"
           content="https://res.cloudinary.com/maxcell/image/upload/v1658435755/main_social.png"
         />
         <meta
           name="twitter:image"
           content="https://res.cloudinary.com/maxcell/image/upload/v1658435755/main_social.png"
         />
-        <meta name="og:title" content={title} />
+        <meta property="og:title" content={title} />
         <meta name="twitter:title" content={props.title} />
-        <meta name="og:type" content="website" />
+        <meta propterty="og:type" content="website" />
         <meta name="twitter:creator" content="@maxcell" />
         <meta name="description" content={description} />
-        <meta name="og:description" content={description} />
+        <meta property="og:description" content={description} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
