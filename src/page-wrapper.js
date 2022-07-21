@@ -114,11 +114,11 @@ export default function PageWrapper(props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="og:image"
-          content="https://res.cloudinary.com/maxcell/image/upload/v1579584116/main_social.png"
+          content="https://res.cloudinary.com/maxcell/image/upload/v1658435755/main_social.png"
         />
         <meta
           name="twitter:image"
-          content="https://res.cloudinary.com/maxcell/image/upload/v1579584116/main_social.png"
+          content="https://res.cloudinary.com/maxcell/image/upload/v1658435755/main_social.png"
         />
         <meta name="og:title" content={title} />
         <meta name="twitter:title" content={props.title} />
