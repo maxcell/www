@@ -35,7 +35,7 @@ const components = {
       titleExtraConfig: "_bold",
       tagline: "",
       cloudName: "maxcell",
-      imagePublicID: "prince_social_template",
+      imagePublicID: "prince_social_template_gn1co4",
       titleFont: "roboto",
       textColor: "222426",
       textAreaWidth: 616,
