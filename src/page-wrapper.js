@@ -121,7 +121,7 @@ export default function PageWrapper(props) {
           content="https://res.cloudinary.com/maxcell/image/upload/v1658435755/main_social.png"
         />
         <meta property="og:title" content={title} />
-        <meta name="twitter:title" content={props.title} />
+        <meta name="twitter:title" content={title} />
         <meta propterty="og:type" content="website" />
         <meta name="twitter:creator" content="@maxcell" />
         <meta name="description" content={description} />
