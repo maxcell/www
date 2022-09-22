@@ -1,7 +1,7 @@
 // Credits to Chris Biscardi
 // What a gem
+import {compile} from "@mdx-js/mdx";
 import frontmatter from 'gray-matter';
-import mdx from '@mdx-js/mdx';
 import cloudinaryPlugin from 'rehype-local-image-to-cloudinary';
 import { fetchMdxFromDisk } from '@toastdotdev/mdx';
 import rehypePrismMdx from 'rehype-prism-mdx'
@@ -23,7 +23,9 @@ export const sourceData = async ({ setDataForSlug }) => {
       const { data, content } = frontmatter(file)
       let compiledMdx = null;
       try {
-        compiledMdx = await mdx(content, {
+        compiledMdx = await compile(content, {
+          providerImportSource: '@mdx-js/preact',
+          jsxImportSource: "preact",
           rehypePlugins: [
             [
               rehypePrismMdx, {
@@ -56,9 +58,7 @@ export const sourceData = async ({ setDataForSlug }) => {
       await setDataForSlug(data.slug, {
         component: {
           mode: 'source',
-          value: `/** @jsx mdx */
-        import {mdx} from '@mdx-js/preact';
-        ${compiledMdx}`,
+          value: compiledMdx.value,
         },
         data
       })
