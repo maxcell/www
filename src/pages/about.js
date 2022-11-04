@@ -9,8 +9,8 @@ function About(props) {
         or building and securing technology to make people's lives better.
         </p>
       <p className="text-lg pt-2">
-        I am a Senior Software Engineer on the Developer Experience team for  <a className="text-lg text-purple-700 underline" href="https://netlify.com">Netlify</a>.
-        Previously I helped build components for the Design Systems at <a className="text-lg text-purple-700 underline" href="https://newsela.com">Newsela</a>. And was a software engineer over at <a target="_blank" rel="noopener noreferrer" href="https://flatironschool.com/">Flatiron School</a>, powered by <a className="text-lg text-purple-700 underline" href="https://wework.com/">WeWork</a>.
+        In my last role, I was a Senior Software Engineer on the Developer Experience team for  <a className="text-lg text-purple-700 underline" href="https://netlify.com">Netlify</a>.
+        Before that, I helped build components for the Design Systems at <a className="text-lg text-purple-700 underline" href="https://newsela.com">Newsela</a>. And was a software engineer over at <a target="_blank" rel="noopener noreferrer" href="https://flatironschool.com/">Flatiron School</a>, powered by <a className="text-lg text-purple-700 underline" href="https://wework.com/">WeWork</a>.
           I started off as an instructor there and helped over 400 folks transition into a career of technology!
         </p>
       <p className="text-lg pt-2">
