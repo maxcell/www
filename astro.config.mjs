@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
+import { sharpImageService } from "astro/assets";
 
 import sitemap from '@astrojs/sitemap';
 // import cloudinary from 'rehype-local-image-to-cloudinary';
@@ -13,4 +14,7 @@ export default defineConfig({
 	},
 	site: 'https://prince.dev',
 	integrations: [mdx(), sitemap(),],
+	image: {
+		service: sharpImageService()
+	}
 });
