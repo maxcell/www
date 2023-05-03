@@ -1,0 +1,897 @@
+---
+title: 'Notes - The Rust Programming Language Book'
+date: '2020-06-16'
+description: 'My runnning notes to the Rust Programming Language Book'
+slug: 'rust-book'
+tags: ['rust', 'learning']
+---
+
+import Callout from '../../../components/Callout.astro'
+
+This is just a running list of notes along the way as I read the Rust Programming
+Language Book. It is helpful for me to write out my raw thoughts 
+
+### Chapter 1
+
+Documentation is local, offline avaibility. One can always get the documentation
+directly with the terminal through `rustup doc`. It isn't just documentation but
+also other pieces such as "Rust by Example".
+
+Unlike other programming languages such as JavaScript or Ruby, Rust splits apart 
+the idea of compilation and execution.
+
+Macros are different than functions. Super important to understanding each of their roles
+however not much detail into that yet.
+
+We have a built-in dependency manager in Rust called `Cargo`. It also handles how to
+build our projects. In Rust, dependencies are referred to as **_crates_**. These 
+will be found within the `Cargo.toml` files. It is similar to how a `package.json`
+works within Node. Similiar as well, Cargo generates `.lock` files as well.
+
+Some common Cargo info to make note of:
+  - `cargo build` - creates an executable from Cargo.toml
+  - `./target/debug/<file_name>` - location of executable
+  - `cargo run` - builds and executes
+  - `cargo check` - checks for compilation
+    - May be useful to run more often than build if checking validity
+  - `cargo build --release` compiles with optimizations
+
+### Chapter 2
+
+This was a project chapter, so I am writing down a lot of my internal
+interpretations of the lines and coupling it with things that may be
+explicitly written to make sure I have a good understanding.
+
+#### Breaking down the project
+
+```rust
+use std::io;
+```
+
+To include libraries we will use the `use` keyword
+and typically put them towards the top. `std::io` represents the standard 
+library and we're pulling out a set of traits & functions(?) for input/output.
+
+```rust
+let mut bar = String::new();
+```
+
+- `let` is used for creating variables
+- Variables are default to immutable, so we add `mut` to change them
+- `associated function` (`::`) on the type and not an instance
+  - sometimes called a static method
+- `&` reference and by default are also immutable
+
+`.expect("Failed to read line")`
+- Is a way for us to handle failed `Result` types from io
+
+`"You guessed: {}", guess`
+- `{}` represents placeholders or string interpolation
+
+`use rand::Rng` - Adds the `Rng` trait from rand
+- `rand::thread_rng().gen_range(inclusive, exclusive)`
+
+`cargo doc --open` - let's you figure out the methods, functions, and traits
+
+`use std::cmp::Ordering` - an enum like `Result` from `.expect`
+
+Shadowing a variable - converting a variable from one type to another is a common case
+
+u32 - unsigned 32-bit integers
+
+`loop` for infinite loops and `break` to break out
+
+`match` looks for something like `Ok` or `Err`. Whatever the result looks like will determine how the call should handle it
+
+### Chapter 3
+
+
+#### Variables and Constants
+
+Variables are immutable by default. In order to reassign the variables,
+we have to declare them mutable and then we can.
+
+Constants cannot be `mut`. They are always immutable. Must have its 
+value type annotated. Must be an expression not a function or computed 
+at runtime.
+
+Shadowing - Declaring a new variable with the same name as the second.
+It is different than marking something with `mut`. This allows us to
+perform transformations on a value and then have the variable be 
+immutable after those transformations have been completed. Also useful
+for performing type transformations. We can't do this with replacing
+with `mut`.
+
+There are two data type subsets: scalar and compound
+- Scalars are a single value. Composed of 4 primary types:
+  1. integers (signed and unsigned)
+  2. floating-point (IEEE-754)
+  3. Booleans
+  4. characters (emoji)
+- Compound which group multiple values into one type. Composed of two:
+  1. Tuples - fixed size length
+    - Access positions with `.` and the index
+  2. Array - every element must be the same type. Are fixed in size
+    - If you want to grow your array, you should be using a vector
+
+<Callout>
+
+**What does this mean?**
+> _"Arrays are useful when you want your data allocated on the stack rather than the heap"_
+
+</Callout>
+
+#### Functions
+
+Prefer to have snake case and use `fn` keyword
+Parameters must have the type declared
+Assignments don't return values so no multiassigns
+
+We can create blocks and the expressions can be evaluated
+
+```rust
+let y = {
+  let x = 3;
+  x + 1 // important not to have a semi-colon
+};
+```
+
+Implicit returns must not have a semicolon
+
+#### Control Flow
+
+```rust
+fn main(){
+  let number = 3;
+
+  if number < 5 {
+    println!("condition was true");
+  } else {
+    println!("condition was false");
+  }.
+}
+```
+The value in the `if` must be a Boolean
+
+You can also use an `if` in a variable statement
+
+```rust
+let condition = true;
+let number = if condition { 5 } else { 6 };
+```
+
+The types between the two cases must be same. Must have both if/else.
+
+#### Repetition with Loops
+
+- `loop`, `while`, `for`
+
+To do a loop, just `loop` block!
+we can return values in a look with a `break`
+
+`while` are conditional based
+`for` through a collection
+`for element in a.iter()`
+
+### Chapter 4 - Ownership
+
+#### Ownership
+
+Ownership relates to several unique features to Rust. Some ways we talk about it is borrowing, slices, and memory.
+
+Rust is unique in the way that it allocates and frees memory, it uses an ownership model which is different C and different than JavaScript
+
+- Stack -> LIFO (Last in First Out)
+Stack contains fix, known data size
+Anything else goes on a heap
+
+pointers -> references to data (addresses)
+
+> Think of being seated at a restaurant. When you enter, you state the number of people in your group, and the staff finds an empty table that fits everyone and leads you there. If someone in your group comes late, they can ask where you’ve been seated to find you.
+
+Three Rules to Ownership:
+
+- 1. Each value in Rust has a variable that’s called its owner.
+- 2. There can only be one owner at a time.
+- 3. When the owner goes out of scope, the value will be dropped.
+
+`let s = "string"` - goes into the stack
+`let mut s = String::from("hello");` 
+
+```rust
+// Does this automatically call drop
+fn main() {
+  let mut s = String::from("hello");
+  s.push_str(", world");
+}
+```
+
+Conceptually double reference is a shallow copy but also invalidates the first variable so it is known as a *move*
+
+```rust
+fn main() {
+    let str1 = String::from("Jason");
+    let mut str2 = str1;
+    str2.push_str(", Chris");
+    println!("The value of our string is: {}", str2);
+}
+```
+
+```rust
+fn main() {
+    let str1 = String::from("Jason");
+    let mut str2 = str1.clone();
+    str2.push_str(", Chris");
+    println!("The value of our first string: {}", str1);
+    println!("The value of our second string: {}", str2);
+}
+```
+
+
+What does this mean
+> If a type has the Copy trait, an older variable is still usable after assignment. Rust won’t let us annotate a type with the Copy trait if the type, or any of its parts, has implemented the Drop trait.
+
+
+Ownership code
+```rust
+fn main() {
+    let s1 = String::from("hello");
+
+    let (s2, len) = calculate_length(s1);
+
+    println!("The length of '{}' is {}.", s2, len);
+}
+
+fn calculate_length(s: String) -> (String, usize) {
+    let length = s.len(); // len() returns the length of a String
+
+    (s, length)
+}
+```
+
+#### Reference and borrowing
+
+`&` reference operator
+`*` deference operator
+
+ A data race is similar to a race condition and happens when these three behaviors occur:
+
+- Two or more pointers access the same data at the same time.
+- At least one of the pointers is being used to write to the data.
+- There’s no mechanism being used to synchronize access to the data.
+
+### String Slices
+
+A string slice is a reference to a part of a String. We will call a string
+with a reference and the array bit, starting_index and end_index which is exclusive.
+
+```rust
+fn main() {
+    let some_str = String::from("hello world");
+    let hello = &some_str[0..5];
+    let world = &some_str[6..11];
+    println!("{}", hello); // hello
+}
+```
+
+`..` is the range syntax. You can use one number and it will either be the
+value to the end or the beginning to the value.
+
+`&String` - represents a reference of a string
+`&str` - represents a string slice
+
+To do other slices you would just do `&[type]`
+
+### Chapter 5 - Structs
+
+In order to write a struct:
+1) declare the struct and its fields
+2) then to make an instance of it with the key/pairs
+```rust
+struct User {
+    username: String,
+    email: String,
+    sign_in_count: u64,
+    active: bool
+}
+```
+
+Just like JavaScript we have field init shorthands, aka
+you don't need to repeat the field name and variable name
+
+Reminder yourself with what the difference between
+these two data types are
+```none
+expected struct `std::string::String`, found `&str`
+```
+
+This is the difference between string literals and dynamically
+allocated strings. Remember that `&str` is also another name for
+a string slice.
+
+Remember the difference of borrowing. When we use a struct,
+and we want to give the value back to the main function, remember to only borrow its value.
+
+Associate functions are functions that don't take self within an implementation, basically like static functions.
+
+Three types of structs
+- Classic
+- Tuple
+- Unit
+
+### Chapter 6 - Enums
+
+Enums allow you to define a type by enumerating its
+possible variants. It can encode meaning and data.
+`Option` is a common/useful enum. Enums for Rust represent
+_algebraic data types_ like in functional languages.
+
+#### Defining an Enum
+
+Similiar to a struct, we declare `enum`s with a name and
+expose the different _variants_ that we'd like for it to have:
+
+```rust
+enum IpAddrKind {
+  V4(String),
+  V6(String)
+}
+```
+
+These can take data in if we'd like, in addition we can also
+write functions associated with them.
+
+```rust
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+impl Message {
+    fn call(&self) {
+        // method body would be defined here
+    }
+}
+
+let m = Message::Write(String::from("hello"));
+m.call();
+```
+
+`Option<T>` is another standard library enum that 
+allows for us to expose two variants `Some<T>` or `None`.
+It is a way to say that the option holds a piece of data 
+of any type where as None is not a valid value. We want
+to ensure that we verify that the data we have received is
+valid.
+
+#### `match` Control Flow Operator
+
+We can declare an Enum that will take in an argument. This 
+can then be used to match further if we want.
+
+```rust
+enum Coin {
+  Penny,
+  Nickel,
+  Dime,
+  Quarter(UsState)
+}
+
+enum Quarter {
+  Alabama,
+  Alaska,
+  // ...
+}
+```
+
+Here we build a function that let's us be able to take in a value
+and then return back the associated number
+
+```rust
+fn value_in_cents(coin: Coin) -> u8 {
+  match coin {
+    Coin::Penny => 1,
+    Coin::Nickel => 5,
+    Coin::Dime => 10,
+    Coin::Quarter => 25
+  }
+}
+```
+
+We can extend this behavior to allow us to match even finer. Let's
+say we want to pull out the state and give that to the consumer:
+
+```rust
+fn value_in_cents(coin: Coin) -> u8 {
+  match coin {
+    Coin::Penny => 1,
+    Coin::Nickel => 5,
+    Coin::Dime => 10,
+    Coin::Quarter(state) => {
+      println!("State quarter from {:?}!", state);
+    }
+  }
+}
+```
+
+Matches need to be exhaustive. You can't just be like do it only for X things,
+unless you use the `_` placeholder.
+
+
+#### Concise Control Flow with `if let`
+
+If you want to do less work to write out only for matching to one case you can write as:
+
+```rust
+let some_u8_value = Some(0u8);
+if let Some(3) = some_u8_value {
+  println!('three');
+}
+```
+
+
+### Chapter 7
+
+My brain hurts here. I want to come back to this. There are a lot of rules around
+the module system. And also how the crate system works.
+
+I posted on Twitter about my headaches on the section and several folks recommended
+this article: ["Clear explanation of Rust's module system"](http://www.sheshbabu.com/posts/rust-module-system/)
+
+### Chapter 8 - Common Collections
+
+These are data structures that can contain multiple values. Their size are not 
+known at compile time but are actually put on the heap. This also means the
+data can be increased/decreased through the course of the program.
+
+High-level explanations:
+
+- **Vector** - store a variable number of values next to each other.
+- **string** - a collection of characters.
+- **hash map** - associate a value with a particular key. Implementation of a map.
+
+
+#### Storing Lists of Values with Vectors
+
+These are useful as a list of items, e.g. lines of text in a file or the prices of
+items in a shopping cart.
+
+Creating a vector looks like:
+
+```rust
+let v: Vec<i32> = Vec::new();
+```
+
+In more common examples, we will declare the vector with an infered type with what
+items we initially store into it. To do this we will use the `vec!` 
+
+```rust
+let v = vec![1,2,3];
+```
+
+Adding things to a vector. **Note**: pay attention to the
+fact that you need to mutate.
+
+```rust
+let mut v = Vec::new();
+v.push(5);
+v.push(6);
+```
+
+Vectors, like other items deallocate after scope is done.
+However deallocation of the content inside is more complicated.
+
+#### Reading Elements of Vectors
+
+We can read from vectors in two ways:
+
+```rust
+let v = vec![1,2,3];
+let third: &i32 = &v[2];
+match v.get(2) {
+  Some(third) => println!("The third element is {}", third),
+  None => println!("There is no third elements!"),
+}
+```
+
+If you try to access a vector out of range with the `[]`
+it will not enjoy that, in fact, it will panic. So a 
+better way could be using the `.get` operator because
+of handling a match. Very useful for handling user logic
+errors.
+
+Reminder, you can only have mutable reference staying as mutable and not switching between the two.
+
+
+#### Iterating over Values in Iterator
+
+We can iterate through the values of a vec using a `for` loop
+
+```rust
+let v = vec![100,32,57];
+for i in &v {
+  println!("{}", i);
+}
+```
+
+If we want to mutate the reference, dereference first:
+
+```rust
+let mut v = vec![100, 32, 57];
+for i in &mut v {
+  *i += 50;
+}
+```
+
+To circumvent the "same type" rule of vectors, you can
+pass in enums, however, you have to make an exhaustive list.
+
+
+#### Strings
+
+Strings become sticky for folks for 3 reasons:
+
+1. Rust's propensity for exposing possible errors
+2. strings being more complicated data structure
+3. UTF-8
+
+`String` is part of the standard library whereas `string`
+is in the core.
+
+```rust
+String::from("this is a test");
+// To use to_string must have Display trait
+"this is a test".to_string();
+```
+
+Use `format!()` for handling multiple strings wanting to be concat
+
+To iterate over a string consider `for c in <string>.chars()`
+
+#### Hash Maps
+
+Implemented as `HashMap<K, V>`. Rather than an index, we
+look for the key to return the value.
+
+Creating a new HashMap:
+
+```rust
+use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+score.insert(String::from("Blue"), 10);
+score.insert(String::from("Yellow"), 50);
+```
+
+First has to be included since not automatically in the
+prelude. Data must be homogenous.
+
+Another way to create a hashmap is through `collect` on 
+a vector of tuples. `collect` gathers data into a number
+of collection types.
+
+
+```rust
+use std::collections::HashMap;
+
+let teams = vec![String::from("Seattle Krakens"), String::from("Detroit Red Wings")];
+let initial_scores = vec![10, 50];
+
+let mut scores: HashMap<_,_> = team.into_iter().zip(initial_scores.into_iter()).collect()
+```
+
+Things that have the `Copy` trait, will be copied into
+the HashMap, things that are moved, will be owned by the
+HashMap.
+
+Retrieving something from a map: `scores.get(&team_name)`.
+The returned value is either `Some(&i32)` or `None`.
+
+We can iterate over a HashMap like:
+
+```rust
+for (key, value) in &scores {
+  println!("{}: {}", key, value);
+}
+```
+
+#### Inserting to HashMap
+
+We can update in three different ways:
+
+1. We can insert to overwrite
+  - `scores.insert(String::from("Seattle Krakens"), 10)`
+2. We can insert if no entry exists
+  - `scores.entry(String::from("Seattle Krakens")).or_insert(10)`
+3. We can update a value if it exists
+  - Doing the insert of #2 but then updating the value
+
+### Chapter 9 - Error Handling
+
+Errors can be grouped into two major categories: recoverable and unrecoverable errors. Recoverable errors are those that report to the user and retry the operation. Whereas the unrecoverable errors are always a symptom of a bug.
+
+Rather than exceptions, they use the `Result<T, E>` for anything that can be recoverable and `panic!` macro that stops execution when the program encounters an unrecoverable error.
+
+#### Unrecoverable Errors with `panic!`
+
+We can manually force a panic with `panic!` macro. This will unwind the program.
+We can also see the backtrace for the error. We read until we find our line of execution.
+
+### Recoverable Errors with Result
+
+In the example of recovering from an error we could do something like:
+
+```rust
+use std::fs::File;
+use std::io::ErrorKind;
+
+fn main() {
+  let f = File::open("hello.txt");
+  // We can match against whether or not it works
+  let f = match f {
+    Ok(file) => file,
+    // And if there is an error, we can also gracefully,
+    // handle what we'd like to happen
+    Err(error) => match error.kind() {
+      ErrorKind::NotFound => match File::create("hello.txt") {
+        Ok(fc) => fc,
+        Err(e) => panic!("Problem creating the file!")
+      },
+      other_error => {
+        panic!("Problem opening the file: {:?}", other_error)
+      }
+    }
+  };
+}
+```
+
+A lot of matches happen here though, but let's consider using
+closer primitives.
+
+```rust
+use std::fs::File;
+use std::io::ErrorKind;
+
+fn main() {
+    let f = File::open("hello.txt").unwrap_or_else(|error| {
+        if error.kind() == ErrorKind::NotFound {
+            File::create("hello.txt").unwrap_or_else(|error| {
+                panic!("Problem creating the file: {:?}", error);
+            })
+        } else {
+            panic!("Problem opening the file: {:?}", error);
+        }
+    });
+}
+```
+
+A helper that you can use is `unwrap` that just handles the result if it is `Ok`, it will just call the `panic!` macro for us by default.
+
+Another helper `expect` allows us to choose the error
+message. That way you can convey your intent and make
+tracking down source of a panic easier.
+
+#### Propogate Errors
+
+You can return the error to the calling code instead of having
+your function handle it yourself
+
+```rust
+use std::fs::File;
+use std::io;
+use std::io::Read;
+
+fn read_username_from_file() -> Result<String, io::Error> {
+  let f = File::open("hello.txt");
+
+  let mut f = match f {
+    Ok(file) => file,
+    Err(e) => return Err(e)
+  };
+
+  let mut s = String::new();
+
+  match f.read_to_string(&mut s) {
+    Ok(_) => Ok(s),
+    Err(e) => Err(e)
+  }
+}
+```
+
+`io::Error` happens to be able to be the return Error that both methods would return back to us.
+
+To shortcut propagating errors, we use the `?` operator:
+
+```rust
+use std::fs::File;
+use std::io;
+use std::io::Read;
+
+fn read_username_from_file() -> Result<String, io::Error> {
+  let mut f = File::open("hello.txt")?;
+  let mut s = String::new();
+  f.read_to_string(&mut s)?;
+  Ok(s)
+}
+```
+
+Error values with the `?` operator called on them go through the `from` function which converts errors from one type to another. It is determined by the return type of the function.
+
+```rust
+use std::fs::File;
+use std::io;
+use std::io::Read;
+
+
+fn read_username_from_file() -> Result<String, io::Error> {
+  let mut s = String::new();
+
+  File::open("hello.txt")?.read_to_string(&mut s)?;
+
+  Ok(s)
+}
+```
+
+All of this can be condensed as a associated function:
+
+```rust
+use std::fs;
+use std::io;
+
+fn read_username_from_file() -> Result<String, io::Error> {
+  fs::read_to_string("hello.txt")
+}
+```
+
+The main function is special and has restrictions to what its return type can be. One is `()` and the other is `Result<T,E>`.
+
+```rust
+use std::error:Error;
+use std::fs::File;
+
+fn main() -> Result<(), Box<dyn Error>> {
+  let f = File::open("hello.txt")?;
+
+  Ok(())
+}
+```
+
+`Box<dyn Error>` represents something called a trait object. This for now means "any kind of error".
+
+### Chapter 10 - Generics, Traits, Lifetimes
+
+#### Generics
+
+Just like we can create functions to abstract out operations
+given that they work on the same type. We can extend this 
+to towards generics. Generics are a "declared" type of item,
+without specifically noting what that type is.
+
+```rust
+// WON'T COMPILE YET BUT STILL
+fn largest<T>(list: &[T]) -> T {
+  let mut largest = list[0];
+
+  for &item in list {
+    if item > largest {
+      largest = item;
+    }
+  }
+  largest
+}
+```
+
+We can extend this to be generics for Struct definitions:
+
+```rust
+// Note: x,y have the same type, so must match
+struct Point<T> {
+  x: T,
+  y: T,
+}
+```
+
+Enums already support this but we can now understand why `Option<T>` or `Result<T,E>` look the way they do.
+
+If you want to extend this logic to implementations as well:
+
+```rust
+struct Point<T> {
+  x: T,
+  y: T
+}
+
+impl<T> Point<T> {
+  fn x(&self) -> &T {
+    &self.x
+  }
+}
+
+fn main() {
+  let p = Point { x: 5, y: 10 };
+  println!("p.x = {}", p.x());
+}
+```
+
+If we want to put a concrete type here, but it changes to:
+`impl Point<f32>`
+
+_Monomorphization_ is the process of turning generic code into specific code by filling in the concrete types that are used when compiled.
+
+#### Traits
+
+A trait is for telling the compiler about functionality a particular type has and can share with other types. When couped with a generic, this allows us to say what shared
+behavior exists. These are _similiar, but not exact_ to interfaces.
+
+Let's say we had a `NewsArticle` and `Tweet` struct. We want to be able to display their summaries, so we can add a trait with a method:
+
+```rust
+pub trait Summary {
+  fn summarize(&self) -> String;
+}
+```
+
+The way we declared this allows us to say we need to have the types who use this trait to also implement the behavior. To get this trait implemented we just need to: `impl Summary for Tweet` and then write out the implementation details.
+
+<Callout>
+  One thing to note is that implementing a trait on type can only happen if either that trait or the type is local to our crate. An example of where this wouldn't work is trying implement Display trait on a Vec. This is a part of coherence, primarily the orphan rule, because the parent type isn't present.
+</Callout>
+
+We can also implement default implementations of the traits, and just call `impl Summary for Tweet {}`.
+
+##### Traits as Parameters
+
+Instead of declaring a type in a function. We can suggest that the parameter implements a trait instead.
+
+```rust
+pub fn notify(item: &impl Summary) {
+  println!("Breaking news! {}", item.summarize());
+}
+```
+
+This is technically syntactical sugar to a `trait bound`:
+
+```rust
+pub fn notify<T: Summary>(item: &T) {
+  println!("Breaking news! {}", item.summarize());
+}
+```
+
+If we want to add multiple trait bounds, we do something such as:
+
+```rust
+pub fn notify(item: &(impl Summary + Display)) {
+```
+
+or:
+
+```rust
+pub fn notify<T: Summary + Display>(item: &T) {
+```
+
+If it gets a bit too clustered though, a recommended solution would be using `where` clauses:
+
+```rust
+fn some_function<T, U>(t: &T, u: &U) -> i32
+  where T: Display + Clone,
+        U: Clone + Debug
+```
+
+#### Lifetimes
+
+Lifetimes are way to tell the borrow checker that the references we have access to are valid for a specific time. This normally doesn't have to be explicitly done, however,  if we don't follow a specific set of rules, then we have to remove the ambiguity wherever we can. To add a lifetime, we need to declare it
+after the function name similiar to a generic type and use a `'`, e.g. `fn longest<'a>(x: &str, y: &str) -> &'a str`.
+
+Lifetimes on function or method parameters are called input lifetimes, and lifetimes on return values are called output lifetimes.
+
+The compiler uses three rules to figure out what lifetimes references have when there aren’t explicit annotations. The first rule applies to input lifetimes, and the second and third rules apply to output lifetimes. If the compiler gets to the end of the three rules and there are still references for which it can’t figure out lifetimes, the compiler will stop with an error. These rules apply to fn definitions as well as impl blocks.
+
+Here is an example of how rust tries to make sure to update its borrow checker logic so https://doc.rust-lang.org/edition-guide/rust-2018/ownership-and-lifetimes/non-lexical-lifetimes.html
+
+### Chapter 11 - Testing
+
+Honestly this chapter I knew a lot about already given from what I've done in Rustlings I am gonna keep this section brief.
+
+### Chapter 12 - I/O minigrep

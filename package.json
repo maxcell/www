@@ -1,0 +1,25 @@
+{
+  "name": "@example/blog",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^0.19.0",
+    "@astrojs/rss": "^2.3.2",
+    "@astrojs/sitemap": "^1.2.1",
+    "@cloudinary/url-gen": "^1.10.0",
+    "astro": "^2.1.9",
+    "rehype-local-image-to-cloudinary": "^1.1.0"
+  },
+  "devDependencies": {
+    "@astrojs/renderer-preact": "^0.5.0",
+    "astro": "^2.1.9"
+  }
+}
