@@ -3,4 +3,4 @@
   publish = "public"
 
 [[plugins]]
-  package = "netlify-plugin-toast-cache"
+  package = "netlify-plugin-cloudinary"
