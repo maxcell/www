@@ -1,6 +1,7 @@
 ---
 import { CollectionEntry, getCollection } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
+import getShareImage from "@jlengstorf/get-share-image"
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -13,9 +14,23 @@ type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
 const { Content } = await post.render();
+
+console.log(post.data)
+
+const socialImage = getShareImage({
+	title: post.data.title,
+	titleExtraConfig: "_bold",
+	tagline: "",
+	cloudName: "maxcell",
+	imagePublicID: "prince_social_template_gn1co4",
+	titleFont: "roboto",
+	textColor: "222426",
+	textAreaWidth: 616,
+	textLeftOffset: 624,
+});
 ---
 
-<BlogPost {...post.data}>
+<BlogPost {...post.data} ogImage={socialImage}>
 	<h1>{post.data.title}</h1>
 	<Content />
 </BlogPost>

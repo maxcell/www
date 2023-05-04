@@ -15,6 +15,7 @@
     "@astrojs/rss": "^2.3.2",
     "@astrojs/sitemap": "^1.2.1",
     "@cloudinary/url-gen": "^1.10.0",
+    "@jlengstorf/get-share-image": "^0.8.0",
     "astro": "^2.1.9",
     "rehype-local-image-to-cloudinary": "^1.1.0",
     "sharp": "^0.31.3"

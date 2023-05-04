@@ -7,7 +7,8 @@ const blog = defineCollection({
 		date: z
 		.string()
 		.or(z.date())
-		.transform((val) => new Date(val))
+		.transform((val) => new Date(val)),
+		description: z.string()
 	}),
 });
 
@@ -17,7 +18,8 @@ const blender = defineCollection({
 		date: z
 		.string()
 		.or(z.date())
-		.transform((val) => new Date(val))
+		.transform((val) => new Date(val)),
+		description: z.string()
 	})
 })
 
