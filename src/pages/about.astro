@@ -1,11 +1,10 @@
 ---
-import Layout from '../layouts/BlogPost.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<Layout
+<BaseLayout
 	title="About Me"
 	description="Learn a bit about Prince Wilson"
-	date={new Date('March 08 2020')}
 >
 <p class="text-lg pt-2">
 	Howdy! I'm Prince Wilson, but you can call me Prince. I am a person who cares about making
@@ -25,4 +24,4 @@ import Layout from '../layouts/BlogPost.astro';
 	Now, I enjoy exploring New York City! I look for opportunities to give back to communities that helped me become who I am today, through mentorship and open source.
 	But most of all, I really really love corgis.
 	</p>
-</Layout>
+</BaseLayout>
