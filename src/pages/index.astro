@@ -8,6 +8,16 @@ import Self from "../assets/dork-prince.png";
 
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import BlogCard from "../components/BlogCard.astro";
+import { getEntry } from "astro:content";
+
+const contextPost = await getEntry('blog', "reuse-context")
+const arduinoPost = await getEntry('blog', "arduino-uno-project")
+const twitchPost = await getEntry('blog', 'create-browser-source-obs')
+const wasmPost = await getEntry('blog', 'rust-wasm')
+
+const interestingPosts = [contextPost, arduinoPost, twitchPost, wasmPost]
+
 ---
 
 <html>
@@ -65,63 +75,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 			<article class="pt-10">
 				<h2 class="text-md font-extralight uppercase">Featured Posts</h2>
 				<ul class="pt-10 flex flex-col gap-8">
-					<li
-						class="mx-auto max-w-[740px] bg-[#EBE0F0] rounded-lg"
-						style="word-break:break-word;width:min(80ch, 90%);padding:clamp(.75rem, 3%, 2rem);"
-					>
-						<h3 class="pb-4 font-bold text-2xl">Lorem ipsum dolor sit amet.</h3>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-							consequat nulla quis nisl tristique sodales. Mauris et mollis est.
-							Aenean ultrices arcu id bibendum molestie. Sed ultricies et dolor
-							eget dignissim. Nam in fermentum felis. Vivamus ornare ac odio a
-							ultrices. Fusce tempus massa in neque lacinia fringilla. Ut eu
-							purus in justo dignissim sagittis.
-						</p>
-						<a
-							class="inline-flex mt-4 underline"
-							style="width:fit-content"
-							href="/">Read more</a
-						>
-					</li>
-					<li
-						class="mx-auto max-w-[740px] bg-[#EBE0F0] rounded-lg"
-						style="word-break:break-word;width:min(80ch, 90%);padding:clamp(.75rem, 3%, 2rem);"
-					>
-						<h3 class="pb-4 font-bold text-2xl">Lorem ipsum dolor sit amet.</h3>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-							consequat nulla quis nisl tristique sodales. Mauris et mollis est.
-							Aenean ultrices arcu id bibendum molestie. Sed ultricies et dolor
-							eget dignissim. Nam in fermentum felis. Vivamus ornare ac odio a
-							ultrices. Fusce tempus massa in neque lacinia fringilla. Ut eu
-							purus in justo dignissim sagittis.
-						</p>
-						<a
-							class="inline-flex mt-4 underline"
-							style="width:fit-content"
-							href="/">Read more</a
-						>
-					</li>
-					<li
-						class="mx-auto max-w-[740px] bg-[#EBE0F0] rounded-lg"
-						style="word-break:break-word;width:min(80ch, 90%);padding:clamp(.75rem, 3%, 2rem);"
-					>
-						<h3 class="pb-4 font-bold text-2xl">Lorem ipsum dolor sit amet.</h3>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-							consequat nulla quis nisl tristique sodales. Mauris et mollis est.
-							Aenean ultrices arcu id bibendum molestie. Sed ultricies et dolor
-							eget dignissim. Nam in fermentum felis. Vivamus ornare ac odio a
-							ultrices. Fusce tempus massa in neque lacinia fringilla. Ut eu
-							purus in justo dignissim sagittis.
-						</p>
-						<a
-							class="inline-flex mt-4 underline"
-							style="width:fit-content"
-							href="/">Read more</a
-						>
-					</li>
+					{interestingPosts.map((post) => <BlogCard title={post.data.title} description={post.data.description} slug={post.slug} />)}
 				</ul>
 			</article>
 		</main>
