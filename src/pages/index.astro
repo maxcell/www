@@ -36,8 +36,8 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 	</head>
 
 	<body>
-		<header style="background-color:#EBE0F0;" class="h-96">
-			<div class="max-w-[80ch] mx-auto pt-8">
+		<header style="background-color:#EBE0F0;" class="md:h-96">
+			<div class="py-8 px-2 max-w-[80ch] mx-auto">
 				<nav class="flex justify-between">
 					<a class="text-2xl font-bold" href="/">Prince</a>
 					<ul class="flex gap-8">
@@ -48,12 +48,12 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 				</nav>
 				<div>
 					<!-- <div style="position:relative;width:100%;height:0; padding-top:calc(100% * (100/300))"> -->
-					<Image src={Self} class="cropped-image-clip-rectangle" alt="" />
+					<!-- <Image src={Self} class="cropped-image-clip-rectangle" alt="" /> -->
 					<!-- </div> -->
 				</div>
 			</div>
 		</header>
-		<main class="max-w-[80ch] mx-auto pt-10 flex flex-col gap-4">
+		<main class="px-8 max-w-[80ch] mx-auto pt-10 flex flex-col gap-4 sm:px-8">
 			<article>
 				<p class="text-3xl font-extrabold pb-8">Howdy there!</p>
 				<p class="text-lg">

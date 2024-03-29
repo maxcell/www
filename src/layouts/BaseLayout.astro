@@ -12,9 +12,9 @@ const { title, description, ogImage } = Astro.props;
 	<head>
 		<BaseHead title={title} description={description} image={ogImage} />
 	</head>
-	<body class="max-w-prose mx-auto">
+	<body>
 		<Header />
-		<main>
+		<main class="max-w-[80ch] mx-auto">
 				<slot />
 		</main>
 		<Footer />
