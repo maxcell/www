@@ -7,14 +7,33 @@ import Footer from '../components/Footer.astro';
 const { title, description, ogImage } = Astro.props;
 
 ---
-<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<BaseHead title={title} description={description} image={ogImage} />
+		<style>
+			.cropped-image-clip-rectangle {
+				height: 100%;
+				width: 100%;
+				margin-top: 35px;
+			}
+			@media (min-width: 772px) {
+				.cropped-image-clip-rectangle {
+					clip-path: inset(33px 169px 160px 186px round 40px);
+					margin-top: -45px;
+					height: 100%;
+				}
+			}
+
+			body {
+				min-height: 100vh;
+				display: grid;
+				grid-template-rows: auto 1fr auto;
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
-		<main class="max-w-[80ch] mx-auto">
+		<main class="px-8 max-w-[80ch] mx-auto pt-10 flex flex-col gap-4 sm:px-8">
 				<slot />
 		</main>
 		<Footer />

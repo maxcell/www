@@ -1,15 +1,35 @@
 ---
-import HeaderLink from "./HeaderLink.astro";
+import { Image } from "astro:assets";
+import Self from "../assets/dork-prince.png";
 ---
 
-<header class="bg-[#EBE0F0] h-24">
-	<div class="max-w-[80ch] mx-auto pt-8 pb-8">
+<style>
+	.cropped-image-clip-rectangle {
+		height: 100%;
+		width: 100%;
+		margin-top: 35px;
+	}
+	@media (min-width: 772px) {
+		.cropped-image-clip-rectangle {
+			clip-path: inset(33px 169px 160px 186px round 40px);
+			margin-top: -45px;
+			height: 100%;
+		}
+	}
+</style>
+
+<header style="background-color:#EBE0F0;" class="md:h-96">
+	<div class="pt-8 px-2 max-w-[80ch] mx-auto">
 		<nav class="flex justify-between">
-			<HeaderLink href="/">Prince</HeaderLink>
-			<ul class="flex gap-8 w-[26rem] content-end"></ul>
-			<HeaderLink href="/blog">Blog</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
-			<HeaderLink href="/links">Links</HeaderLink>
+			<a class="text-2xl font-bold" href="/">Prince</a>
+			<ul class="flex gap-4 sm:gap-8">
+				<a class="text-2xl font-bold" href="/blog">Blog</a>
+				<a class="text-2xl font-bold" href="/about">About</a>
+				<!-- <a class="text-2xl font-bold" href="/links">Links</a> -->
+			</ul>
 		</nav>
+		<div>
+			<Image src={Self} class="cropped-image-clip-rectangle" alt="" />
+		</div>
 	</div>
 </header>
