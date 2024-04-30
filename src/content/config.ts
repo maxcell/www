@@ -23,5 +23,18 @@ const blender = defineCollection({
 	})
 })
 
+const game = defineCollection({
+	schema: ({image}) => z.object({
+		title: z.string(),
+		image: image().refine((img) => true, {
+			message: "Cover image must be at least 1080 pixels wide!",
+		}),
+		imageAlt: z.string(),
+		currentlyPlaying: z.boolean(),
+		excerpt: z.string(),
+		link: z.string()
+	}),
+})
 
-export const collections = { blender, blog };
+
+export const collections = { blender, blog, game };

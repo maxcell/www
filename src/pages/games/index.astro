@@ -1,0 +1,34 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro"
+
+const SITE_TITLE = "Prince's "
+const SITE_DESCRIPTION = "Prince's collection of video games he has played and thought about reviewing"
+
+
+const allGamePosts = await getCollection("game");
+
+const currentlyPlaying = allGamePosts.filter(({data}) => 
+  data.currentlyPlaying
+)
+---
+
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <div class="prose">
+    <h1>Welcome to the Game Corner</h1>
+<h2>Currently Playing</h2>
+    {
+      currentlyPlaying.map((post) => (
+        <div>
+          <a href={post.data.link}>
+          <Image src={post.data.image} alt={post.data.imageAlt}/>
+        </a>
+          <p class="font-bold">{post.data.title}</p>
+          <p>{post.data.excerpt}</p>
+        </div>
+      ))
+    }
+  </div>
+  </BaseLayout>
+
