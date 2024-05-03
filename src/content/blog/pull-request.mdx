@@ -1,0 +1,64 @@
+---
+title: "Thoughts on Pull Requests - Description"
+date: '2024-05-10'
+description: 'My thoughts on why we use pull request descriptions. What we could be doing better.'
+draft: false
+slug: 'pull-request-description'
+tags: ['systems', 'pr']
+---
+
+Having been a developer now for quite a bit, I've developed a sense of
+what is important to me. It is not about the technology I use, it is not
+about the part of development I do. It is about systems and processes that
+not only set myself up for success, but also my team and future members.
+One crucial part that I care about is the pull request.
+
+The pull request is a mechanism for other folks to see your code, make suggestions,
+and extend your codebase/product/etc. In some companies, your pull request
+is connected to a specific ticket for project tracking purposes. This allows
+folks to trace how code evolved either to fix a product issue, extend the system,
+or even for ways to refactor the codebase. Some folks, however, don't 
+think they matter that much and will just be light on their feedback or simply
+put little to no effort in describing their change beyond the code itself.
+
+The pull request to me is incredibly important. The pull request allows us
+an opportunity to show the intention. We are able to see what a set of changes
+will do to our codebase and how it is written even in the description is crucial.
+If we're asking for folks to review our code, it is important we give folks as
+much context as they need to understand the set of changes. As the person opening
+it we need to make sure we put our perspective away and write it from someone
+coming in who might not know the full picture and how we can give them enough
+that they can feel confident the change will perform the way it should.
+
+To facilitate that, we should make sure to always include a helpful description.
+A summary of the intention. This can be brief just to give the highlights of what
+the work will do. Generally for user interface work, I think it is also important
+to highlight any visual changes in this section as a before/after or even just 
+the way the interactions should work as a small preview for folks so they don't have
+to pull the entire thing down and make it run.
+
+From there I generally have a section around any "technical detail" where I can
+dive deeper into the implementation or anything in particular to articulate the complexities.
+This is generally where I might explain a bit about the system or any necessary
+backend calls that we're listening to. Or the complexity of refactoring the code.
+
+Most importantly to me, there is the section for how to actually go about testing the
+code change manually. In my jobs, we have developers test our code and so writing down
+the interactions can be really useful -- especially if they need steps for how to boot the
+application in a certain way. This also is used for our quality assurance processes and
+so I can send it to our QA engineers to manually test it or communicate it our automation teams.
+
+And the last bit I usually do is any articles or tickets I should reference for the work. I am
+generally unique in this way but I care deeply about sharing resources for people if I am implementing
+functionality that is weird or new to folks. Or if I'm using any specific APIs from SDKs we either
+control or don't control. This is CRUCIAL to me because it allows us make sure future developers
+understand _where_ the problem came from or what tool we were operating with. Adding references
+allow us to also use the pull request as a means of education and expanding wisdom. Back when I 
+worked in a Design Systems team, we used this section as a way to also highlight articles around
+accessibility or other design systems we referenced to understand how we wanted to architect the
+developer experience.
+
+These are some of my thoughts around the description. This is the very first thing folks see.
+It is also the thing that ends up potentially getting added into your squash commits or merge
+commits. So having all this historical information at the ready for people can save them lots of
+time!
