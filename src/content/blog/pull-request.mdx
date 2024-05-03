@@ -30,23 +30,41 @@ it we need to make sure we put our perspective away and write it from someone
 coming in who might not know the full picture and how we can give them enough
 that they can feel confident the change will perform the way it should.
 
-To facilitate that, we should make sure to always include a helpful description.
+## What's in the Pull Request Description?
+
+To facilitate that, we should make sure to always include a helpful description. There are a 
+few key elements that matter to me that I try to include in every pull request:
+
+- A brief summary
+- Screenshots or videos of the changes if applicable
+- An explainer of the problem in more depth or highlighting specific complexities
+- Testing Instructions for anyone to step through (including booting the application)
+- References section
+
+### Summary and Before/Afters
+
 A summary of the intention. This can be brief just to give the highlights of what
 the work will do. Generally for user interface work, I think it is also important
 to highlight any visual changes in this section as a before/after or even just 
 the way the interactions should work as a small preview for folks so they don't have
 to pull the entire thing down and make it run.
 
+### Technical Details
+
 From there I generally have a section around any "technical detail" where I can
 dive deeper into the implementation or anything in particular to articulate the complexities.
 This is generally where I might explain a bit about the system or any necessary
 backend calls that we're listening to. Or the complexity of refactoring the code.
+
+### Testing Instructions
 
 Most importantly to me, there is the section for how to actually go about testing the
 code change manually. In my jobs, we have developers test our code and so writing down
 the interactions can be really useful -- especially if they need steps for how to boot the
 application in a certain way. This also is used for our quality assurance processes and
 so I can send it to our QA engineers to manually test it or communicate it our automation teams.
+
+### References
 
 And the last bit I usually do is any articles or tickets I should reference for the work. I am
 generally unique in this way but I care deeply about sharing resources for people if I am implementing
